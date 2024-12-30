@@ -1,6 +1,10 @@
-﻿namespace EasyTodoListApp.API.Todos.UseCases.ToggleTodoImportance
+﻿
+using EasyTodoListApp.API.Todos.UseCases.CreateTodo;
+using MediatR;
+
+namespace EasyTodoListApp.API.Todos.UseCases.ToggleTodoImportance;
+
+public class ToggleTodoImportanceHandler : IRequestHandler<ToggleTodoImportanceCommand, ToggleTodoImportanceResponse>
 {
-   public class ToggleTodoImportanceHandler
-   {
-   }
+    public Task<ToggleTodoImportanceResponse> Handle(ToggleTodoImportanceCommand request, CancellationToken cancellationToken) => throw new NotImplementedException();
 }

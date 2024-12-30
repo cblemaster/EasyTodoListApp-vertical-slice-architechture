@@ -1,6 +1,10 @@
-﻿namespace EasyTodoListApp.API.Todos.UseCases.UpdateTodo
+﻿
+using EasyTodoListApp.API.Todos.UseCases.CreateTodo;
+using MediatR;
+
+namespace EasyTodoListApp.API.Todos.UseCases.UpdateTodo;
+
+public class UpdateTodoHandler : IRequestHandler<UpdateTodoCommand, UpdateTodoResponse>
 {
-   public class UpdateTodoHandler
-   {
-   }
+    public Task<UpdateTodoResponse> Handle(UpdateTodoCommand request, CancellationToken cancellationToken) => throw new NotImplementedException();
 }

@@ -14,12 +14,17 @@ public class Todo : Entity<Todo>
 
    private Todo(string description, DateOnly? dueDate, bool isImportant, bool isComplete)
    {
-      Description = new(description);
+      Description = Descriptor.CreateOrThrowArgException(description, IS_DSCRIPTION_REQUIRED, IS_DESCRIPTION_ALL_WHITESPACE_ALLOWED, MAX_LENGTH_FOR_DESCRIPTION);
       DueDate = dueDate;
       IsImportant = isImportant;
       IsComplete = isComplete;
       Dates = new(DateTime.Now, null);
+      Identifier = Identifier<Todo>.Create(Guid.NewGuid());
    }
 
    public static Todo Create(string description, DateOnly? dueDate, bool isImportant, bool isComplete) =>new(description, dueDate, isImportant, isComplete);
+
+   public const int MAX_LENGTH_FOR_DESCRIPTION = 100;
+   public const bool IS_DSCRIPTION_REQUIRED = true;
+   public const bool IS_DESCRIPTION_ALL_WHITESPACE_ALLOWED = false;
 }

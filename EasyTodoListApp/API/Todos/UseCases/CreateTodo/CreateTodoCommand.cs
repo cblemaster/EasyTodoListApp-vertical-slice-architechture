@@ -1,7 +1,9 @@
 ﻿
+using MediatR;
+
 namespace EasyTodoListApp.API.Todos.UseCases.CreateTodo;
 
-public class CreateTodoCommand
+public class CreateTodoCommand : IRequest<CreateTodoResponse>
 {
    public string Description { get; set; } = string.Empty;
    public DateOnly? DueDate { get; set; }

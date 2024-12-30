@@ -2,5 +2,6 @@
 {
    public class ToggleTodoCompletionCommand
    {
+      public Guid Identifier { get; set; }
    }
 }

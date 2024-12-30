@@ -1,6 +1,4 @@
 ﻿namespace EasyTodoListApp.API.Todos.UseCases.GetAllTodosNotComplete
 {
-   public class GetAllTodosNotCompleteQuery
-   {
-   }
+   public class GetAllTodosNotCompleteQuery { }
 }

@@ -1,6 +1,4 @@
-﻿namespace EasyTodoListApp.API.Todos.UseCases.GetAllTodosComplete
-{
-   public class GetAllTodosCompleteQuery
-   {
-   }
-}
+﻿
+namespace EasyTodoListApp.API.Todos.UseCases.GetAllTodosComplete;
+
+public class GetAllTodosCompleteQuery { }

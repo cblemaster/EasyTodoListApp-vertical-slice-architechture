@@ -2,5 +2,6 @@
 {
    public class GetTodoByIdQuery
    {
+      public Guid Identifier { get; set; }
    }
 }

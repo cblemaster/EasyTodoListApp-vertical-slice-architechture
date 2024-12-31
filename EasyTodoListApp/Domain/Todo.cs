@@ -23,6 +23,8 @@ public class Todo : Entity<Todo>
     }
 
     public static Todo Create(string description, DateOnly? dueDate, bool isImportant, bool isComplete) => new(description, dueDate, isImportant, isComplete);
+    public static Todo NotFound => new();
+    
     public void SetDescription(string description) => Description = Descriptor.CreateOrThrowArgException(description, Description.IsRequired, Description.IsAllowAllWhitespace, Description.MaxLength);
     public void SetDueDate(DateOnly? dueDate) => DueDate = dueDate;
     public void SetIsComplete(bool isComplete) => IsComplete = isComplete;

@@ -12,6 +12,6 @@ public class GetTodoByIdHandler(ITodoRepository todoRepository) : IRequestHandle
     public async Task<GetTodoByIdResponse> Handle(GetTodoByIdQuery request, CancellationToken cancellationToken)
     {
         Todo? todo = await _todoRepository.GetTodoByIdOrNullAsync(request.Id);
-        return todo is null ? new GetTodoByIdResponse(TodoNotFound) : new GetTodoByIdResponse(todo);
+        return todo is null ? new GetTodoByIdResponse(Todo.NotFound) : new GetTodoByIdResponse(todo);
     }
 }

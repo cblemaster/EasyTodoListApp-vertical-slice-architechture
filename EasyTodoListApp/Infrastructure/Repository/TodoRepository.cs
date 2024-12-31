@@ -19,7 +19,7 @@ public class TodoRepository(EasyTodoListAppDbContext context) : ITodoRepository
     }
     public async Task UpdateTodoAsync(UpdateTodoCommand command)
     {
-        Todo entity = await GetTodoByIdOrNullAsync(command.Id);
+        Todo entity = (await GetTodoByIdOrNullAsync(command.Id))!;  // handler has verified that the entity exists
         entity.SetDescription(command.Description);
         entity.SetDueDate(command.DueDate);
         entity.SetUpdateDate();
@@ -27,13 +27,13 @@ public class TodoRepository(EasyTodoListAppDbContext context) : ITodoRepository
     }
     public async Task ToggleTodoImportanceAsync(ToggleTodoImportanceCommand command)
     {
-        Todo entity = await GetTodoByIdOrNullAsync(command.Id);
+        Todo entity = (await GetTodoByIdOrNullAsync(command.Id))!;  // handler has verified that the entity exists
         entity.SetIsImportant(!entity.IsImportant);
         await _context.SaveChangesAsync();
     }
     public async Task ToggleTodoCompletionAsync(ToggleTodoCompletionCommand command)
     {
-        Todo entity = await GetTodoByIdOrNullAsync(command.Id);
+        Todo entity = (await GetTodoByIdOrNullAsync(command.Id))!;  // handler has verified that the entity exists
         entity.SetIsComplete(!entity.IsComplete);
         await _context.SaveChangesAsync();
     }

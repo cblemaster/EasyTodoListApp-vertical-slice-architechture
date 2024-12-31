@@ -18,7 +18,10 @@ public class EasyTodoListAppDbContext : DbContext
         modelBuilder.Entity<Todo>(entity =>
         {
             entity.ToTable("Todo");
-            entity.Property(e => e.Description).HasConversion(d => d.Value, d => Descriptor.CreateOrThrowArgException(d, Todo.IS_DSCRIPTION_REQUIRED, Todo.IS_DESCRIPTION_ALL_WHITESPACE_ALLOWED, Todo.MAX_LENGTH_FOR_DESCRIPTION))
+            entity
+                .Property(e => e.Description)
+                .HasConversion(d => d.Value, d => Descriptor.CreateOrThrowArgException
+                    (d, Todo.IS_DSCRIPTION_REQUIRED, Todo.IS_DESCRIPTION_ALL_WHITESPACE_ALLOWED, Todo.MAX_LENGTH_FOR_DESCRIPTION))
                 .HasMaxLength(Todo.MAX_LENGTH_FOR_DESCRIPTION)
                 .IsUnicode(false);
             entity.Property(e => e.Identifier).HasConversion(i => i.Value, i => Identifier<Todo>.Create(i));

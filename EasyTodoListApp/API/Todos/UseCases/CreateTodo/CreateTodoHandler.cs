@@ -12,7 +12,7 @@ public class CreateTodoHandler(ITodoRepository todoRepository) : IRequestHandler
     public async Task<CreateTodoResponse> Handle(CreateTodoCommand request, CancellationToken cancellationToken)
     {
         // TODO: Validation of request values, no need for null check
-        
+
         Todo createTodo = Todo.Create(request.Description, request.DueDate, request.IsImportant, request.IsComplete);
         request = request with { NewTodo = createTodo };
         await _todoRepository.CreateTodoAsync(request);

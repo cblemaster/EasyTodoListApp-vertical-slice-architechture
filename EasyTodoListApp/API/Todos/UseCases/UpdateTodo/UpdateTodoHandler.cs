@@ -1,5 +1,4 @@
 ﻿
-using EasyTodoListApp.API.Todos.UseCases.ToggleTodoImportance;
 using EasyTodoListApp.Domain;
 using EasyTodoListApp.Infrastructure.Repository;
 using MediatR;
@@ -15,7 +14,7 @@ public class UpdateTodoHandler(ITodoRepository todoRepository) : IRequestHandler
         Todo? updateTodo = await _todoRepository.GetTodoByIdOrNullAsync(request.Id);
         if (updateTodo is null)
         {
-            return new UpdateTodoResponse($"Todo with id {request.Id.Value} not found!");
+            return new UpdateTodoResponse($"Todo with id { request.Id.Value } not found!");
         }
         else if (updateTodo.IsComplete)
         {
@@ -24,7 +23,7 @@ public class UpdateTodoHandler(ITodoRepository todoRepository) : IRequestHandler
         else
         {
             await _todoRepository.UpdateTodoAsync(request);
-            return new UpdateTodoResponse($"Todo with id {request.Id.Value} updated successfully!");
+            return new UpdateTodoResponse($"Todo with id { request.Id.Value } updated successfully!");
         }
     }
 }

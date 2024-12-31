@@ -1,9 +1,7 @@
-﻿using MediatR;
+﻿
+using EasyTodoListApp.Domain;
+using MediatR;
 
-namespace EasyTodoListApp.API.Todos.UseCases.ToggleTodoImportance
-{
-    public class ToggleTodoImportanceCommand : IRequest<ToggleTodoImportanceResponse>
-    {
-        public Guid Identifier { get; set; }
-    }
-}
+namespace EasyTodoListApp.API.Todos.UseCases.ToggleTodoImportance;
+
+public record ToggleTodoImportanceCommand(Identifier<Todo> Id) : IRequest<ToggleTodoImportanceResponse>;

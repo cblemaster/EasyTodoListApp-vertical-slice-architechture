@@ -24,39 +24,19 @@ public class TodoRepository(EasyTodoListAppDbContext context) : ITodoRepository
             await _context.SaveChangesAsync();
         }
     }
+    public async Task ToggleTodoImportanceAsync(ToggleTodoImportanceCommand command)
+    {
+        Todo entity = await GetTodoByIdOrNullAsync(command.Id);
+        entity.SetIsImportant(!entity.IsImportant);
+        await _context.SaveChangesAsync();
+    }
 
-    //}
-    //public async Task ToggleTodoCompletionAsync(Guid id)
-    //{
-    //   if (await GetTodoByIdOrNullAsync(id) is not Todo entity)
-    //   {
-    //      // TODO: return 'not found';
-    //   }
-    //   else
-    //   {
-    //      entity.SetIsComplete(!entity.IsComplete);
-    //      await _context.SaveChangesAsync();
-    //      // TODO: return success response
-    //   }
-    //}
-    //public async Task ToggleTodoImportanceAsync(Guid id)
-    //{
-    //   if (await GetTodoByIdOrNullAsync(id) is not Todo entity)
-    //   {
-    //      // TODO: return 'not found';
-    //   }
-    //   else if (entity.IsComplete)
-    //   {
-    //      // TODO: return 'bad request with error';
-    //   }
-    //   else
-    //   {
-    //      entity.SetIsImportant(!entity.IsImportant);
-    //      await _context.SaveChangesAsync();
-    //      // TODO: return success response
-    //   }
-
-    //}
+    public async Task ToggleTodoCompletionAsync(ToggleTodoCompletionCommand command)
+    {
+        Todo entity = await GetTodoByIdOrNullAsync(command.Id);
+        entity.SetIsComplete(!entity.IsComplete);
+        await _context.SaveChangesAsync();
+    }
     //public async Task UpdateTodo(UpdateTodoCommand command, Guid id)
     //{
     //   if (await GetTodoByIdOrNullAsync(id) is not Todo entity)

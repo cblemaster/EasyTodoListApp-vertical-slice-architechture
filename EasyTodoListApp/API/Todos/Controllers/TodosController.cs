@@ -31,6 +31,7 @@ namespace EasyTodoListApp.API.Todos.Controllers
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdateTodoAsync([FromBody] UpdateTodoCommand command, Guid id)
         {
+            // TODO: The "not found" evaluation here is pretty brittle
             command = command with { Id = command.Id with { Value = id } };
             UpdateTodoResponse response = await _mediator.Send(command);
             return !string.IsNullOrWhiteSpace(response.Result)

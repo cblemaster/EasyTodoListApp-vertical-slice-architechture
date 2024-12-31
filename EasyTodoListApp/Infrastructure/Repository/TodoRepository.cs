@@ -39,12 +39,9 @@ public class TodoRepository(EasyTodoListAppDbContext context) : ITodoRepository
     }
     public async Task DeleteTodoAsync(Identifier<Todo> id)
     {
-        Todo? entity = await GetTodoByIdOrNullAsync(id);
-        if (entity is not null)
-        {
-            _context.Set<Todo>().Remove(entity);
-            await _context.SaveChangesAsync();
-        }
+        Todo entity = (await GetTodoByIdOrNullAsync(id))!;  // handler has verified that the entity exists
+        _context.Set<Todo>().Remove(entity);
+        await _context.SaveChangesAsync();
     }
 
     public IEnumerable<Todo> GetAllTodosComplete() => _context.Set<Todo>().Where(t => t.IsComplete);

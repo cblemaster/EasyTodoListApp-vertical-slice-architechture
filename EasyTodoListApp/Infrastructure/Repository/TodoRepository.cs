@@ -1,4 +1,5 @@
 ﻿
+using EasyTodoListApp.API.Todos.UseCases.CreateTodo;
 using EasyTodoListApp.Domain;
 using EasyTodoListApp.Infrastructure.DatabaseContext;
 
@@ -9,26 +10,11 @@ public class TodoRepository(EasyTodoListAppDbContext context) : ITodoRepository
     private readonly EasyTodoListAppDbContext _context = context;
 
     #region commands
-    //public async Task CreateTodoAsync(CreateTodoCommand command)
-    //{
-    //   if (command is null)
-    //   {
-    //      //return bad request w/error
-    //   }
-
-    //   (bool IsValid, string ErrorMessage) = ValidateCreateTodoCommand.Validate(command);
-    //   if (!IsValid)
-    //   {
-    //      // TODO: return 'bad request with error';
-    //   }
-    //   else
-    //   {
-    //      Todo entity = Todo.Create(command.Description, command.DueDate, command.IsImportant, command.IsComplete);
-    //      _context.Set<Todo>().Add(entity);
-    //      await _context.SaveChangesAsync();
-    //      // return success 
-    //   }
-    //}
+    public async Task CreateTodoAsync(CreateTodoCommand command)
+    {
+        _context.Set<Todo>().Add(command.NewTodo);
+        await _context.SaveChangesAsync();
+    }
     public async Task DeleteTodoAsync(Identifier<Todo> id)
     {
         Todo? entity = await GetTodoByIdOrNullAsync(id);

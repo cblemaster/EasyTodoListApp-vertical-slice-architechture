@@ -2,6 +2,7 @@
 using EasyTodoListApp.API.Todos.UseCases.CreateTodo;
 using EasyTodoListApp.API.Todos.UseCases.ToggleTodoCompletion;
 using EasyTodoListApp.API.Todos.UseCases.ToggleTodoImportance;
+using EasyTodoListApp.API.Todos.UseCases.UpdateTodo;
 using EasyTodoListApp.Domain;
 using EasyTodoListApp.Infrastructure.DatabaseContext;
 
@@ -39,25 +40,14 @@ public class TodoRepository(EasyTodoListAppDbContext context) : ITodoRepository
         entity.SetIsComplete(!entity.IsComplete);
         await _context.SaveChangesAsync();
     }
-    //public async Task UpdateTodo(UpdateTodoCommand command, Guid id)
-    //{
-    //   if (await GetTodoByIdOrNullAsync(id) is not Todo entity)
-    //   {
-    //      // TODO: return 'not found';
-    //   }
-    //   else if (entity.IsComplete)
-    //   {
-    //      // TODO: return 'bad request with error';
-    //   }
-    //   else
-    //   {
-    //      entity.SetDescription(command.Description);
-    //      entity.SetDueDate(command.DueDate);
-    //      //entity.Dates = entity.Dates with { UpdateDate = DateTime.Now };
-    //      await _context.SaveChangesAsync();
-    //   }
-    //   // otherwise update description and/or due date if they have changed, save changes and return an ok/success result
-    //}
+    public async Task UpdateTodoAsync(UpdateTodoCommand command)
+    {
+        Todo entity = await GetTodoByIdOrNullAsync(command.Id);
+        entity.SetDescription(command.Description);
+        entity.SetDueDate(command.DueDate);
+        entity.SetUpdateDate();
+        await _context.SaveChangesAsync();
+    }
     #endregion commands
 
     #region queries

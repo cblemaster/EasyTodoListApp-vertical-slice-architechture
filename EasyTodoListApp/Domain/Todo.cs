@@ -29,6 +29,7 @@ public class Todo : Entity<Todo>
     public void SetDueDate(DateOnly? dueDate) => DueDate = dueDate;
     public void SetIsComplete(bool isComplete) => IsComplete = isComplete;
     public void SetIsImportant(bool isImportant) => IsImportant = isImportant;
+    public void SetUpdateDate() => Dates = Dates with { UpdateDate = DateTime.Now };
 
     public const int MAX_LENGTH_FOR_DESCRIPTION = 100;
     public const bool IS_DSCRIPTION_REQUIRED = true;

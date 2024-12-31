@@ -1,10 +1,7 @@
-﻿using MediatR;
+﻿
+using EasyTodoListApp.Domain;
+using MediatR;
 
 namespace EasyTodoListApp.API.Todos.UseCases.UpdateTodo;
 
-public class UpdateTodoCommand : IRequest<UpdateTodoResponse>
-{
-    public string Description { get; set; } = string.Empty;
-    public DateOnly? DueDate { get; set; }
-    public Guid Identifier { get; set; }
-}
+public record UpdateTodoCommand(string Description, DateOnly? DueDate, Identifier<Todo> Id) : IRequest<UpdateTodoResponse>;

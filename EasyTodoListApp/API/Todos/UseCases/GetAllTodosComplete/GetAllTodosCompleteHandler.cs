@@ -1,4 +1,5 @@
-﻿using EasyTodoListApp.Domain;
+﻿
+using EasyTodoListApp.Domain;
 using EasyTodoListApp.Infrastructure.Repository;
 using MediatR;
 

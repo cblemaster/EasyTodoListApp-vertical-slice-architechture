@@ -14,16 +14,14 @@ public class EasyTodoListAppDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlite("Data Source=easytodolist.dat");
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
+    protected override void OnModelCreating(ModelBuilder modelBuilder) =>
         modelBuilder.Entity<Todo>(entity =>
         {
             entity.ToTable("Todo");
             entity.Property(e => e.Description).HasConversion(d => d.Value, d => Descriptor.CreateOrThrowArgException(d, Todo.IS_DSCRIPTION_REQUIRED, Todo.IS_DESCRIPTION_ALL_WHITESPACE_ALLOWED, Todo.MAX_LENGTH_FOR_DESCRIPTION))
-                 .HasMaxLength(Todo.MAX_LENGTH_FOR_DESCRIPTION)
-                 .IsUnicode(false);
+                .HasMaxLength(Todo.MAX_LENGTH_FOR_DESCRIPTION)
+                .IsUnicode(false);
             entity.Property(e => e.Identifier).HasConversion(i => i.Value, i => Identifier<Todo>.Create(i));
             entity.ComplexProperty(e => e.Dates);
         });
-    }
 }

@@ -29,22 +29,15 @@ public class TodoRepository(EasyTodoListAppDbContext context) : ITodoRepository
     //      // return success 
     //   }
     //}
-    //public async Task DeleteTodoAsync(Guid id)
-    //{
-    //   if (await GetTodoByIdOrNullAsync(id) is not Todo entity)
-    //   {
-    //      // TODO: return 'not found';
-    //   }
-    //   else if (entity.IsImportant)
-    //   {
-    //      // TODO: return 'bad request with error';
-    //   }
-    //   else
-    //   {
-    //      _context.Set<Todo>().Remove(entity);
-    //      await _context.SaveChangesAsync();
-    //      // TODO: return success response
-    //   }
+    public async Task DeleteTodoAsync(Identifier<Todo> id)
+    {
+        Todo? entity = await GetTodoByIdOrNullAsync(id);
+        if (entity is not null)
+        {
+            _context.Set<Todo>().Remove(entity);
+            await _context.SaveChangesAsync();
+        }
+    }
 
     //}
     //public async Task ToggleTodoCompletionAsync(Guid id)

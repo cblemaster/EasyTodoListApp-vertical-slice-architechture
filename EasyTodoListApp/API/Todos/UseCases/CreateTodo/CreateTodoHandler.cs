@@ -13,9 +13,9 @@ public class CreateTodoHandler(ITodoRepository todoRepository) : IRequestHandler
     {
         // TODO: Validation of request values, no need for null check
         
-        Todo newTodo = Todo.Create(request.Description, request.DueDate, request.IsImportant, request.IsComplete);
-        request = request with { NewTodo = newTodo };
+        Todo createTodo = Todo.Create(request.Description, request.DueDate, request.IsImportant, request.IsComplete);
+        request = request with { NewTodo = createTodo };
         await _todoRepository.CreateTodoAsync(request);
-        return new CreateTodoResponse(newTodo, $"/todos/{ newTodo.Identifier.Value }");
+        return new CreateTodoResponse(createTodo, $"/todos/{ createTodo.Identifier.Value }");
     }
 }

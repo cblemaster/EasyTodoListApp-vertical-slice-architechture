@@ -1,5 +1,7 @@
 ﻿
 using EasyTodoListApp.API.Todos.UseCases.CreateTodo;
+using EasyTodoListApp.API.Todos.UseCases.ToggleTodoCompletion;
+using EasyTodoListApp.API.Todos.UseCases.ToggleTodoImportance;
 using EasyTodoListApp.Domain;
 using EasyTodoListApp.Infrastructure.DatabaseContext;
 
@@ -63,9 +65,6 @@ public class TodoRepository(EasyTodoListAppDbContext context) : ITodoRepository
 
     public IEnumerable<Todo> GetAllTodosComplete() => _context.Set<Todo>().Where(t => t.IsComplete);
     public IEnumerable<Todo> GetAllTodosNotComplete() => _context.Set<Todo>().Where(t => !t.IsComplete);
-    //public IEnumerable<Todo> GetAllTodosDueToday() => GetAllTodosNotComplete().Where(t => t.DueDate.HasValue && t.DueDate.Value == DateOnly.FromDateTime(DateTime.Today));
-    //public IEnumerable<Todo> GetAllTodosImportant() => GetAllTodosNotComplete().Where(t => t.IsImportant);
-    //public IEnumerable<Todo> GetAllTodosOverdue() => GetAllTodosNotComplete().Where(t => t.DueDate.HasValue && t.DueDate.Value < DateOnly.FromDateTime(DateTime.Today));
     public async Task<Todo?> GetTodoByIdOrNullAsync(Identifier<Todo> id) => await _context.Set<Todo>().FindAsync(id.Value);
     #endregion queries
 }

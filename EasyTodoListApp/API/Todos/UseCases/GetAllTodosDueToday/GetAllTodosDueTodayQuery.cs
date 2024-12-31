@@ -1,6 +1,6 @@
-﻿using MediatR;
+﻿
+using MediatR;
 
-namespace EasyTodoListApp.API.Todos.UseCases.GetAllTodosDueToday
-{
-    public class GetAllTodosDueTodayQuery : IRequest<GetAllTodosDueTodayResponse> { }
-}
+namespace EasyTodoListApp.API.Todos.UseCases.GetAllTodosDueToday;
+
+public record GetAllTodosDueTodayQuery() : IRequest<GetAllTodosDueTodayResponse> { }

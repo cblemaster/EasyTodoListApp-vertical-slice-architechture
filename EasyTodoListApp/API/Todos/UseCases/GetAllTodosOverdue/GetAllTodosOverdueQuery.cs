@@ -1,6 +1,6 @@
-﻿using MediatR;
+﻿
+using MediatR;
 
-namespace EasyTodoListApp.API.Todos.UseCases.GetAllTodosOverdue
-{
-    public class GetAllTodosOverdueQuery : IRequest<GetAllTodosOverdueResponse> { }
-}
+namespace EasyTodoListApp.API.Todos.UseCases.GetAllTodosOverdue;
+
+public record GetAllTodosOverdueQuery() : IRequest<GetAllTodosOverdueResponse> { }

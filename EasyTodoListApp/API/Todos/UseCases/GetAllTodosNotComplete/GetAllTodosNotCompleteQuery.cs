@@ -1,6 +1,6 @@
-﻿using MediatR;
+﻿
+using MediatR;
 
-namespace EasyTodoListApp.API.Todos.UseCases.GetAllTodosNotComplete
-{
-    public class GetAllTodosNotCompleteQuery : IRequest<GetAllTodosNotCompleteResponse> { }
-}
+namespace EasyTodoListApp.API.Todos.UseCases.GetAllTodosNotComplete;
+
+public record GetAllTodosNotCompleteQuery() : IRequest<GetAllTodosNotCompleteResponse> { }

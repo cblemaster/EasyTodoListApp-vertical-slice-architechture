@@ -1,5 +1,6 @@
-﻿using MediatR;
+﻿
+using MediatR;
 
 namespace EasyTodoListApp.API.Todos.UseCases.GetAllTodosComplete;
 
-public class GetAllTodosCompleteQuery : IRequest<GetAllTodosCompleteResponse> { }
+public record GetAllTodosCompleteQuery() : IRequest<GetAllTodosCompleteResponse> { }

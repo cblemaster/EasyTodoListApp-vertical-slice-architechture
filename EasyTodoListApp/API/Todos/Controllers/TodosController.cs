@@ -64,7 +64,7 @@ namespace EasyTodoListApp.API.Todos.Controllers
                 ? response.Result.Contains("not found") ? NotFound() : BadRequest(response.Result)
                 : NoContent();
         }
-        
+
         [HttpGet("/complete")]
         public async Task<IActionResult> GetAllTodosCompleteAsync()
         {

@@ -11,6 +11,8 @@ public class UpdateTodoHandler(ITodoRepository todoRepository) : IRequestHandler
 
     public async Task<UpdateTodoResponse> Handle(UpdateTodoCommand request, CancellationToken cancellationToken)
     {
+        // TODO: Validation...
+
         Todo? updateTodo = await _todoRepository.GetTodoByIdOrNullAsync(request.Id);
         if (updateTodo is null)
         {

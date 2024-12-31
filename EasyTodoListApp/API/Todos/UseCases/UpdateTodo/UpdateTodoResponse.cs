@@ -1,6 +1,6 @@
 ﻿namespace EasyTodoListApp.API.Todos.UseCases.UpdateTodo
 {
-   public class UpdateTodoResponse
-   {
-   }
+    public class UpdateTodoResponse
+    {
+    }
 }

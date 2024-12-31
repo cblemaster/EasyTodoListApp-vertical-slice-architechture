@@ -1,10 +1,9 @@
-﻿using EasyTodoListApp.API.Todos.UseCases.CreateTodo;
-using MediatR;
+﻿using MediatR;
 
 namespace EasyTodoListApp.API.Todos.UseCases.ToggleTodoCompletion
 {
-   public class ToggleTodoCompletionCommand : IRequest<ToggleTodoCompletionResponse>
+    public class ToggleTodoCompletionCommand : IRequest<ToggleTodoCompletionResponse>
     {
-      public Guid Identifier { get; set; }
-   }
+        public Guid Identifier { get; set; }
+    }
 }

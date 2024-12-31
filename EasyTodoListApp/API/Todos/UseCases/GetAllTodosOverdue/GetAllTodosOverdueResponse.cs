@@ -1,6 +1,6 @@
-﻿namespace EasyTodoListApp.API.Todos.UseCases.GetAllTodosOverdue
-{
-   public class GetAllTodosOverdueResponse
-   {
-   }
-}
+﻿
+using EasyTodoListApp.Domain;
+
+namespace EasyTodoListApp.API.Todos.UseCases.GetAllTodosOverdue;
+
+public record GetAllTodosOverdueResponse(IReadOnlyCollection<Todo> AllTodosOverdue);

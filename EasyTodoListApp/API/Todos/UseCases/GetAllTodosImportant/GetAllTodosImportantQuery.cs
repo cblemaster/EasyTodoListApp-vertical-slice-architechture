@@ -1,7 +1,6 @@
-﻿using EasyTodoListApp.API.Todos.UseCases.CreateTodo;
-using MediatR;
+﻿using MediatR;
 
 namespace EasyTodoListApp.API.Todos.UseCases.GetAllTodosImportant
 {
-   public class GetAllTodosImportantQuery : IRequest<GetAllTodosImportantResponse> { }
+    public class GetAllTodosImportantQuery : IRequest<GetAllTodosImportantResponse> { }
 }

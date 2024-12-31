@@ -1,10 +1,22 @@
-﻿
-using EasyTodoListApp.API.Todos.UseCases.CreateTodo;
+﻿using EasyTodoListApp.Domain;
+using EasyTodoListApp.Infrastructure.Repository;
 using MediatR;
 
 namespace EasyTodoListApp.API.Todos.UseCases.GetAllTodosNotComplete;
 
-public class GetAllTodosNotCompleteHandler : IRequestHandler<GetAllTodosNotCompleteQuery, GetAllTodosNotCompleteResponse>
+public class GetAllTodosNotCompleteHandler(ITodoRepository todoRepository) : IRequestHandler<GetAllTodosNotCompleteQuery, GetAllTodosNotCompleteResponse>
 {
-    public Task<GetAllTodosNotCompleteResponse> Handle(GetAllTodosNotCompleteQuery request, CancellationToken cancellationToken) => throw new NotImplementedException();
+    private readonly ITodoRepository _todoRepository = todoRepository;
+
+    public async Task<GetAllTodosNotCompleteResponse> Handle(GetAllTodosNotCompleteQuery request, CancellationToken cancellationToken)
+    {
+        IReadOnlyCollection<Todo> todos =
+            _todoRepository
+                .GetAllTodosNotComplete()
+                .OrderByDescending(d => d.DueDate)
+                .ThenBy(d => d.Description.Value, StringComparer.CurrentCultureIgnoreCase)
+                .ToList()
+                .AsReadOnly();
+        return new GetAllTodosNotCompleteResponse(todos);
+    }
 }

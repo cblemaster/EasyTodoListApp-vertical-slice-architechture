@@ -1,7 +1,6 @@
-﻿using EasyTodoListApp.API.Todos.UseCases.CreateTodo;
-using MediatR;
+﻿using MediatR;
 
 namespace EasyTodoListApp.API.Todos.UseCases.GetAllTodosOverdue
 {
-   public class GetAllTodosOverdueQuery : IRequest<GetAllTodosOverdueResponse> { }
+    public class GetAllTodosOverdueQuery : IRequest<GetAllTodosOverdueResponse> { }
 }

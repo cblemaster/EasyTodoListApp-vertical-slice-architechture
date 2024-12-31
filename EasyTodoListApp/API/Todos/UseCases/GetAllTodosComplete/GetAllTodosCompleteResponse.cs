@@ -1,6 +1,6 @@
-﻿namespace EasyTodoListApp.API.Todos.UseCases.GetAllTodosComplete
-{
-   public class GetAllTodosCompleteResponse
-   {
-   }
-}
+﻿
+using EasyTodoListApp.Domain;
+
+namespace EasyTodoListApp.API.Todos.UseCases.GetAllTodosComplete;
+
+public record GetAllTodosCompleteResponse(IReadOnlyCollection<Todo> AllTodosComplete);

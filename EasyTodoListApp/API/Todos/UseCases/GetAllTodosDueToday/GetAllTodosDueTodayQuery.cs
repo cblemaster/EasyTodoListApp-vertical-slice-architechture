@@ -1,7 +1,6 @@
-﻿using EasyTodoListApp.API.Todos.UseCases.CreateTodo;
-using MediatR;
+﻿using MediatR;
 
 namespace EasyTodoListApp.API.Todos.UseCases.GetAllTodosDueToday
 {
-   public class GetAllTodosDueTodayQuery : IRequest<GetAllTodosDueTodayResponse> { }
+    public class GetAllTodosDueTodayQuery : IRequest<GetAllTodosDueTodayResponse> { }
 }

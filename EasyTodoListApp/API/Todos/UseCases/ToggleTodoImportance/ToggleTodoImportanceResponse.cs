@@ -1,6 +1,6 @@
 ﻿namespace EasyTodoListApp.API.Todos.UseCases.ToggleTodoImportance
 {
-   public class ToggleTodoImportanceResponse
-   {
-   }
+    public class ToggleTodoImportanceResponse
+    {
+    }
 }

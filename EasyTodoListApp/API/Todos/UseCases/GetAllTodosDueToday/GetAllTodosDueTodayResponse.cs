@@ -1,6 +1,6 @@
-﻿namespace EasyTodoListApp.API.Todos.UseCases.GetAllTodosDueToday
-{
-   public class GetAllTodosDueTodayResponse
-   {
-   }
-}
+﻿
+using EasyTodoListApp.Domain;
+
+namespace EasyTodoListApp.API.Todos.UseCases.GetAllTodosDueToday;
+
+public record GetAllTodosDueTodayResponse(IReadOnlyCollection<Todo> AllTodosDueToday);

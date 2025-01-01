@@ -1,4 +1,5 @@
 ﻿
+using EasyTodoListApp.API.Todos.Validation;
 using EasyTodoListApp.Domain;
 using EasyTodoListApp.Infrastructure.Repository;
 using MediatR;
@@ -11,8 +12,12 @@ public class UpdateTodoHandler(ITodoRepository todoRepository) : IRequestHandler
 
     public async Task<UpdateTodoResponse> Handle(UpdateTodoCommand request, CancellationToken cancellationToken)
     {
-        // TODO: Validation...
-
+        (bool IsValid, string ErrorMessage) = ValidateDescription.Validate(request.Description);
+        
+        if (!IsValid)
+        {
+            return new UpdateTodoResponse($"Validation error: { ErrorMessage }!");
+        }
         Todo? updateTodo = await _todoRepository.GetTodoByIdOrNullAsync(request.Id);
         if (updateTodo is null)
         {

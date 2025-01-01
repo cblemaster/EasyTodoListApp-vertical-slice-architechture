@@ -31,7 +31,7 @@ public class Todo : Entity<Todo>
     public void SetIsImportant(bool isImportant) => IsImportant = isImportant;
     public void SetUpdateDate() => Dates = Dates with { UpdateDate = DateTime.Now };
 
-    public const int MAX_LENGTH_FOR_DESCRIPTION = 100;
     public const bool IS_DESCRIPTION_REQUIRED = true;
     public const bool IS_DESCRIPTION_ALL_WHITESPACE_ALLOWED = false;
+    public const int MAX_LENGTH_FOR_DESCRIPTION = 100;
 }

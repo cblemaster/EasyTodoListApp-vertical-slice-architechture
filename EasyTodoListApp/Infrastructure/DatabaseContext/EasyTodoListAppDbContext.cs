@@ -18,6 +18,7 @@ public class EasyTodoListAppDbContext : DbContext
         modelBuilder.Entity<Todo>(entity =>
         {
             entity.ToTable("Todo");
+            entity.HasKey(e => e.Identifier);
             entity
                 .Property(e => e.Description)
                 .HasConversion(d => d.Value, d => Descriptor.CreateOrThrowArgException

@@ -66,35 +66,35 @@ namespace EasyTodoListApp.API.Todos.Controllers
                 : NoContent();
         }
 
-        [HttpGet("/complete")]
+        [HttpGet("complete")]
         public async Task<IActionResult> GetAllTodosCompleteAsync()
         {
             GetAllTodosCompleteQuery query = new();
             GetAllTodosCompleteResponse response = await _mediator.Send(query);
             return Ok(response.AllTodosComplete);
         }
-        [HttpGet("/duetoday")]
+        [HttpGet("duetoday")]
         public async Task<IActionResult> GetAllTodosDueTodayAsync()
         {
             GetAllTodosDueTodayQuery query = new();
             GetAllTodosDueTodayResponse response = await _mediator.Send(query);
             return Ok(response.AllTodosDueToday);
         }
-        [HttpGet("/important")]
+        [HttpGet("important")]
         public async Task<IActionResult> GetAllTodosImportantAsync()
         {
             GetAllTodosImportantQuery query = new();
             GetAllTodosImportantResponse response = await _mediator.Send(query);
             return Ok(response.AllTodosImportant);
         }
-        [HttpGet("/notcomplete")]
+        [HttpGet("notcomplete")]
         public async Task<IActionResult> GetAllTodosNotCompleteAsync()
         {
             GetAllTodosNotCompleteQuery query = new();
             GetAllTodosNotCompleteResponse response = await _mediator.Send(query);
             return Ok(response.AllTodosNotComplete);
         }
-        [HttpGet("/overdue")]
+        [HttpGet("overdue")]
         public async Task<IActionResult> GetAllTodosOverdueAsync()
         {
             GetAllTodosOverdueQuery query = new();

@@ -10,6 +10,7 @@ using EasyTodoListApp.API.Todos.UseCases.GetTodoById;
 using EasyTodoListApp.API.Todos.UseCases.ToggleTodoCompletion;
 using EasyTodoListApp.API.Todos.UseCases.ToggleTodoImportance;
 using EasyTodoListApp.API.Todos.UseCases.UpdateTodo;
+using EasyTodoListApp.API.Todos.Validation;
 using EasyTodoListApp.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -25,18 +26,36 @@ namespace EasyTodoListApp.API.Todos.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateTodoAsync([FromBody] CreateTodoCommand command)
         {
-            CreateTodoResponse response = await _mediator.Send(command);
-            return Created(response.Uri, response.Todo);
+            (bool IsValid, string ErrorMessage) = ValidateDescription.Validate(command.Description);
+
+            if (!IsValid)
+            {
+                return BadRequest(ErrorMessage);
+            }
+            else
+            {
+                CreateTodoResponse response = await _mediator.Send(command);
+                return Created(response.Uri, response.Todo);
+            }
         }
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdateTodoAsync([FromBody] UpdateTodoCommand command, Guid id)
         {
-            // TODO: The "not found" evaluation here is pretty brittle
-            command = command with { Id = command.Id with { Value = id } };
-            UpdateTodoResponse response = await _mediator.Send(command);
-            return !string.IsNullOrWhiteSpace(response.Result)
-                ? response.Result.Contains("not found") ? NotFound() : BadRequest(response.Result)
-                : NoContent();
+            (bool IsValid, string ErrorMessage) = ValidateDescription.Validate(command.Description);
+
+            if (!IsValid)
+            {
+                return BadRequest(ErrorMessage);
+            }
+            else
+            {
+                // TODO: The "not found" evaluation here is pretty brittle
+                command = command with { Id = command.Id with { Value = id } };
+                UpdateTodoResponse response = await _mediator.Send(command);
+                return !string.IsNullOrWhiteSpace(response.Result)
+                    ? response.Result.Contains("not found") ? NotFound() : BadRequest(response.Result)
+                    : NoContent();
+            }
         }
         [HttpPut("{id:guid}/importance")]
         public async Task<IActionResult> ToggleTodoImportanceAsync(Guid id)

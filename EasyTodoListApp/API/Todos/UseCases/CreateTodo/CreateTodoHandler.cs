@@ -1,5 +1,4 @@
 ﻿
-using EasyTodoListApp.API.Todos.UseCases.UpdateTodo;
 using EasyTodoListApp.API.Todos.Validation;
 using EasyTodoListApp.Domain;
 using EasyTodoListApp.Infrastructure.Repository;

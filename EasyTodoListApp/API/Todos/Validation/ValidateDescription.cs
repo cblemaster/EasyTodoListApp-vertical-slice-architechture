@@ -1,7 +1,6 @@
 ﻿
 using EasyTodoListApp.Domain;
 using System.Text.RegularExpressions;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace EasyTodoListApp.API.Todos.Validation;
 

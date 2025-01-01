@@ -16,12 +16,12 @@ public static class ValidateDescription
             isValid = false;
             errorMessage = "Description is required!";
         }
-        else if (Todo.IS_DESCRIPTION_ALL_WHITESPACE_ALLOWED && Regex.Match(description, @"^\s +$").Success)
+        else if (!Todo.IS_DESCRIPTION_ALL_WHITESPACE_ALLOWED && Regex.Match(description, @"^\s +$").Success)
         {
             isValid = false;
             errorMessage = "Description cannot be only whitespace characters!";
         }
-        else if (Todo.MAX_LENGTH_FOR_DESCRIPTION > description.Length)
+        else if (description.Length > Todo.MAX_LENGTH_FOR_DESCRIPTION)
         {
             isValid = false;
             errorMessage = $"Description must be { Todo.MAX_LENGTH_FOR_DESCRIPTION } or fewer characters!";

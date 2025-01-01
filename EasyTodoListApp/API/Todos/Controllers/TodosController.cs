@@ -49,12 +49,12 @@ namespace EasyTodoListApp.API.Todos.Controllers
             }
             else
             {
-                // TODO: The "not found" evaluation here is pretty brittle
+                // TODO: The "not found" and "success" evaluations here are pretty brittle
                 command = command with { Id = command.Id with { Value = id } };
                 UpdateTodoResponse response = await _mediator.Send(command);
-                return !string.IsNullOrWhiteSpace(response.Result)
-                    ? response.Result.Contains("not found") ? NotFound() : BadRequest(response.Result)
-                    : NoContent();
+                return response.Result.Contains("not found")
+                    ? NotFound()
+                    : response.Result.Contains("success") ? NoContent() : BadRequest(response.Result);
             }
         }
         [HttpPut("{id:guid}/importance")]
@@ -62,27 +62,27 @@ namespace EasyTodoListApp.API.Todos.Controllers
         {
             ToggleTodoImportanceCommand command = new(Identifier<Todo>.Create(id));
             ToggleTodoImportanceResponse response = await _mediator.Send(command);
-            return !string.IsNullOrWhiteSpace(response.Result)
-                ? response.Result.Contains("not found") ? NotFound() : BadRequest(response.Result)
-                : NoContent();
+            return response.Result.Contains("not found")
+                ? NotFound()
+                : response.Result.Contains("success") ? NoContent() : BadRequest(response.Result);
         }
         [HttpPut("{id:guid}/completion")]
         public async Task<IActionResult> ToggleTodoCompletionAsync(Guid id)
         {
             ToggleTodoCompletionCommand command = new(Identifier<Todo>.Create(id));
             ToggleTodoCompletionResponse response = await _mediator.Send(command);
-            return !string.IsNullOrWhiteSpace(response.Result)
-                ? response.Result.Contains("not found") ? NotFound() : BadRequest(response.Result)
-                : NoContent();
+            return response.Result.Contains("not found")
+                ? NotFound()
+                : response.Result.Contains("success") ? NoContent() : BadRequest(response.Result);
         }
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteTodoAsync(Guid id)
         {
             DeleteTodoCommand command = new(Identifier<Todo>.Create(id));
             DeleteTodoResponse response = await _mediator.Send(command);
-            return !string.IsNullOrWhiteSpace(response.Result)
-                ? response.Result.Contains("not found") ? NotFound() : BadRequest(response.Result)
-                : NoContent();
+            return response.Result.Contains("not found")
+                ? NotFound()
+                : response.Result.Contains("success") ? NoContent() : BadRequest(response.Result);
         }
 
         [HttpGet("complete")]
@@ -125,7 +125,9 @@ namespace EasyTodoListApp.API.Todos.Controllers
         {
             GetTodoByIdQuery query = new(Identifier<Todo>.Create(id));
             GetTodoByIdResponse response = await _mediator.Send(query);
-            return response.Todo is not null ? Ok(response.Todo) : NotFound($"Todo with id {id} not found!");
+            return response.Todo is null || response.Todo.Description is null
+                ? NotFound($"Todo with id {id} not found!")
+                : Ok(response.Todo);
         }
     }
 }

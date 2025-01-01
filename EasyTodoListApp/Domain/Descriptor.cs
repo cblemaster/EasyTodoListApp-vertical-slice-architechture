@@ -7,7 +7,7 @@ public record Descriptor(string Value, bool IsRequired, bool IsAllowAllWhitespac
 {
     public static Descriptor CreateOrThrowArgException(string Value, bool IsRequired, bool IsAllowAllWhitespace, int? MaxLength)
     {
-        Descriptor newDescriptor = Descriptor.CreateOrThrowArgException(Value, IsRequired, IsAllowAllWhitespace, MaxLength);
+        Descriptor newDescriptor = new Descriptor(Value, IsRequired, IsAllowAllWhitespace, MaxLength);
         (bool IsValid, string ErrorMessage) = newDescriptor.Validate();
         return IsValid ? newDescriptor : throw new ArgumentException(ErrorMessage, nameof(Value));
     }

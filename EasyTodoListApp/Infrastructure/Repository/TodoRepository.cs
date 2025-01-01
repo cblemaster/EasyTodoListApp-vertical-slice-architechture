@@ -29,12 +29,14 @@ public class TodoRepository(EasyTodoListAppDbContext context) : ITodoRepository
     {
         Todo entity = (await GetTodoByIdOrNullAsync(command.Id))!;  // handler has verified that the entity exists
         entity.SetIsImportant(!entity.IsImportant);
+        entity.SetUpdateDate();
         await _context.SaveChangesAsync();
     }
     public async Task ToggleTodoCompletionAsync(ToggleTodoCompletionCommand command)
     {
         Todo entity = (await GetTodoByIdOrNullAsync(command.Id))!;  // handler has verified that the entity exists
         entity.SetIsComplete(!entity.IsComplete);
+        entity.SetUpdateDate();
         await _context.SaveChangesAsync();
     }
     public async Task DeleteTodoAsync(Identifier<Todo> id)
@@ -46,5 +48,5 @@ public class TodoRepository(EasyTodoListAppDbContext context) : ITodoRepository
 
     public IEnumerable<Todo> GetAllTodosComplete() => _context.Set<Todo>().Where(t => t.IsComplete);
     public IEnumerable<Todo> GetAllTodosNotComplete() => _context.Set<Todo>().Where(t => !t.IsComplete);
-    public async Task<Todo?> GetTodoByIdOrNullAsync(Identifier<Todo> id) => await _context.Set<Todo>().FindAsync(id.Value);
+    public async Task<Todo?> GetTodoByIdOrNullAsync(Identifier<Todo> id) => await _context.Set<Todo>().FindAsync(id);
 }

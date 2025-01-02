@@ -3,14 +3,12 @@
 ## About
 + An application that provides todo functionality, nothing fancy, just the basics
 + My first time using vertical slice architecture and the MediatR library
-+ The app will start small, with new features added incrementally (incidentally, the ease of adding features is a benefit of VSA)
 ## Acknowledgement
 + Many thanks to Ziggy Rafiq, whose write up of VSA caught my attention because it was the first I encountered that included code examples (in fact, a complete application)
 + https://github.com/ziggyrafiq/ECommerceApp-VerticalSlice/tree/main
 ## Objectives
 + Complete my first project that uses VSA
-+ Understand the advantages and disadvantages of using VSA
-+ Understand the role of the MediatR library and how it could have helped me with past projects
++ Understand some advantages and disadvantages of using VSA
 + Make the app extensible so that adding features is easy
 ## Use cases
 |#|Use case|Description|
@@ -24,7 +22,7 @@
 |7|Update todo|As a user, I want to update todos<br />I want to be able to update the todo decription and/or the due date<br />The description for the todo is required, cannot be all whitespace characters, and must be 100 or fewer characters in length<br />The due date for the todo is optional, and if provided can be past, present, or future<br />Completed todos cannot be updated, except to toggle back to incomplete<br />The update date for the todo is set |
 |8|Toggle todo importance|As a user, I want to update the importance of todos<br />Completed todos cannot be updated, except to toggle back to incomplete<br />The update date for the todo is set|
 |9|Toggle todo completion|As a user, I want to update the completion of todos<br />The update date for the todo is set|
-|10|Delete todo|As a user, I want to delete todos<br />Important todos cannot be deleted|
+|10|Delete todo|As a user, I want to delete todos<br />Important todos that are not complete cannot be deleted!|
 ## Built with
 + .NET 9/ C# 13
 + Microsoft Visual Studio Community 2022
@@ -32,3 +30,5 @@
 + Tackle TODO comments
 + Ditch the controller in favor of minimal api endpoints
 + Test suite: unit tests, db integration tests, api endpoint tests, what else?
++ New features!
++ Dig into MediatR and how I can get more out of it

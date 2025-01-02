@@ -22,10 +22,15 @@
 |7|Update todo|As a user, I want to update todos<br />I want to be able to update the todo decription and/or the due date<br />The description for the todo is required, cannot be all whitespace characters, and must be 100 or fewer characters in length<br />The due date for the todo is optional, and if provided can be past, present, or future<br />Completed todos cannot be updated, except to toggle back to incomplete<br />The update date for the todo is set |
 |8|Toggle todo importance|As a user, I want to update the importance of todos<br />Completed todos cannot be updated, except to toggle back to incomplete<br />The update date for the todo is set|
 |9|Toggle todo completion|As a user, I want to update the completion of todos<br />The update date for the todo is set|
-|10|Delete todo|As a user, I want to delete todos<br />Important todos that are not complete cannot be deleted!|
+|10|Delete todo|As a user, I want to delete todos<br />Important todos that are not complete cannot be deleted|
 ## Built with
 + .NET 9/ C# 13
 + Microsoft Visual Studio Community 2022
++ MediatR
++ Entity Framework Core
++ SQLite database provider for EF
++ Visual Studio Code (for jupyter notebooks)
++ Mermaid js (for architecture diagram)
 ## Improvement opportunities / new features
 + Tackle TODO comments
 + Ditch the controller in favor of minimal api endpoints

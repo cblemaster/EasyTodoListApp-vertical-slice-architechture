@@ -123,6 +123,7 @@ namespace EasyTodoListApp.API.Todos.Controllers
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetTodoByIdAsync(Guid id)
         {
+            // TODO: the 'response.Todo.Description is null' evaluation checks to see if it is Todo.NotFound, this check is brittle
             GetTodoByIdQuery query = new(Identifier<Todo>.Create(id));
             GetTodoByIdResponse response = await _mediator.Send(query);
             return response.Todo is null || response.Todo.Description is null

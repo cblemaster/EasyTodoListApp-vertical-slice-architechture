@@ -14,7 +14,7 @@ public class TodoRepository(EasyTodoListAppDbContext context) : ITodoRepository
 
     public async Task CreateTodoAsync(CreateTodoCommand command)
     {
-        _context.Set<Todo>().Add(command.NewTodo);
+        _context.Set<Todo>().Add(command.NewTodo!);
         await _context.SaveChangesAsync();
     }
     public async Task UpdateTodoAsync(UpdateTodoCommand command)

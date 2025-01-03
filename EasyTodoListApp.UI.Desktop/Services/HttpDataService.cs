@@ -1,6 +1,5 @@
 ﻿
 using EasyTodoListApp.UI.Desktop.Models;
-using System.Net;
 using System.Text.Json;
 
 namespace EasyTodoListApp.UI.Desktop.Services;
@@ -8,49 +7,126 @@ namespace EasyTodoListApp.UI.Desktop.Services;
 public class HttpDataService : IHttpDataService
 {
     private readonly HttpClient _client;
-    private const string BASE_URI = "https://localhost:7194/todos";
+    private const string BASE_URI = "https://localhost:7194";
 
-    internal HttpDataService() => _client = new HttpClient { BaseAddress = new Uri(BASE_URI) };
+    public HttpDataService() => _client = new HttpClient { BaseAddress = new Uri(BASE_URI) };
 
-    public void CreateTodo(CreateTodoCommand command) { throw new NotImplementedException(); }
-    public void DeleteTodo(Guid id) { throw new NotImplementedException(); }
+    public async void CreateTodoAsync(CreateTodoCommand command)
+    {
+        StringContent content = new(JsonSerializer.Serialize(command));
+        content.Headers.ContentType = new("application/json");
+
+        try
+        {
+            HttpResponseMessage response = await _client.PostAsync("/todos", content);
+            response.EnsureSuccessStatusCode();
+            // TODO: Message to UI that the create succeeded
+        }
+        catch (HttpRequestException ex)
+        {
+            string message = $"Create todo failed, the server response was status {ex.StatusCode}";
+            // TODO: Message to UI that the create failed
+        }
+    }
+    public async void DeleteTodoAsync(Guid id)
+    {
+        try
+        {
+            HttpResponseMessage response = await _client.DeleteAsync($"todos/{id}");
+            response.EnsureSuccessStatusCode();
+            // TODO: Message to UI that the delete succeeded
+        }
+        catch (HttpRequestException ex)
+        {
+            string message = $"Delete todo failed, the server response was status {ex.StatusCode}";
+            // TODO: Message to UI that the delete failed
+        }
+    }
     public async Task<IEnumerable<Todo>> GetAllTodosCompleteAsync()
     {
-        HttpResponseMessage response = await _client.GetAsync("/complete");
+        HttpResponseMessage response = await _client.GetAsync("todos/complete");
         return await DeserializeTodoListAsync(response.Content);
     }
     public async Task<IEnumerable<Todo>> GetAllTodosDueTodayAsync()
     {
-        HttpResponseMessage response = await _client.GetAsync("/duetoday");
+        HttpResponseMessage response = await _client.GetAsync("todos/duetoday");
         return await DeserializeTodoListAsync(response.Content);
     }
     public async Task<IEnumerable<Todo>> GetAllTodosImportantAsync()
     {
-        HttpResponseMessage response = await _client.GetAsync("/important");
+        HttpResponseMessage response = await _client.GetAsync("todos/important");
         return await DeserializeTodoListAsync(response.Content);
     }
     public async Task<IEnumerable<Todo>> GetAllTodosNotCompleteAsync()
     {
-        HttpResponseMessage response = await _client.GetAsync("/notcomplete");
+        HttpResponseMessage response = await _client.GetAsync("todos/notcomplete");
         return await DeserializeTodoListAsync(response.Content);
     }
     public async Task<IEnumerable<Todo>> GetAllTodosOverdueAsync()
     {
-        HttpResponseMessage response = await _client.GetAsync("/overdue");
+        HttpResponseMessage response = await _client.GetAsync("todos/overdue");
         return await DeserializeTodoListAsync(response.Content);
     }
-    public async Task<Todo> GetTodoByIdAsync(Guid id)
+    public async Task<Todo> GetTodoByIdOrThrowHttpExAsync(Guid id)
     {
-        HttpResponseMessage response = await _client.GetAsync($"/{id}");
-        if (response.StatusCode.Equals(HttpStatusCode.NotFound))
+        try
         {
-            throw new NotImplementedException();   // TODO: fix this!
+            HttpResponseMessage response = await _client.GetAsync($"todos/{id}");
+            response.EnsureSuccessStatusCode();
+            return await DeserializeTodoAsync(response.Content);
         }
-        return await DeserializeTodoAsync(response.Content);
+        catch (HttpRequestException ex)
+        {
+            string message = $"Todo not found, the server response was status {ex.StatusCode}";
+            // TODO: Message to UI that the get by id failed
+            throw;
+        }
     }
-    public void ToggleTodoCompletion(Guid id) { throw new NotImplementedException(); }
-    public void ToggleTodoImportance(Guid id) { throw new NotImplementedException(); }
-    public void UpdateTodo(UpdateTodoCommand command, Guid id) { throw new NotImplementedException(); }
+    public async void ToggleTodoCompletionAsync(Guid id)
+    {
+        try
+        {
+            HttpResponseMessage response = await _client.PutAsync($"/todos/{id}/completion", null);
+            response.EnsureSuccessStatusCode();
+            // TODO: Message to UI that the toggle todo completion succeeded
+        }
+        catch (HttpRequestException ex)
+        {
+            string message = $"Toggle todo completion failed, the server response was status {ex.StatusCode}";
+            // TODO: Message to UI that the toggle todo completion failed
+        }
+    }
+    public async void ToggleTodoImportanceAsync(Guid id)
+    {
+        try
+        {
+            HttpResponseMessage response = await _client.PutAsync($"/todos/{id}/importance", null);
+            response.EnsureSuccessStatusCode();
+            // TODO: Message to UI that the toggle todo importance succeeded
+        }
+        catch (HttpRequestException ex)
+        {
+            string message = $"Toggle todo importance failed, the server response was status {ex.StatusCode}";
+            // TODO: Message to UI that the toggle todo importance failed
+        }
+    }
+    public async void UpdateTodoAsync(UpdateTodoCommand command, Guid id)
+    {
+        StringContent content = new(JsonSerializer.Serialize(command));
+        content.Headers.ContentType = new("application/json");
+
+        try
+        {
+            HttpResponseMessage response = await _client.PutAsync($"/todos/{id}", content);
+            response.EnsureSuccessStatusCode();
+            // TODO: Message to UI that the update succeeded
+        }
+        catch (HttpRequestException ex)
+        {
+            string message = $"Update todo failed, the server response was status {ex.StatusCode}";
+            // TODO: Message to UI that the update failed
+        }
+    }
 
     private static async Task<Todo> DeserializeTodoAsync(HttpContent content)
     {
@@ -66,7 +142,6 @@ public class HttpDataService : IHttpDataService
         JsonElement.ArrayEnumerator elements = json.RootElement.EnumerateArray();
 
         List<Todo> todos = [];
-
         foreach (JsonElement element in elements)
         {
             Todo todo = CreateTodoFromJsonElement(element);

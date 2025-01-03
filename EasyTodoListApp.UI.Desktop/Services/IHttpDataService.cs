@@ -5,16 +5,16 @@ namespace EasyTodoListApp.UI.Desktop.Services
 {
     public interface IHttpDataService
     {
-        void CreateTodoAsync(CreateTodoCommand command);
+        void CreateTodoAsync(CreateTodoDTO command);
         void DeleteTodoAsync(Guid id);
-        Task<IEnumerable<Todo>> GetAllTodosCompleteAsync();
-        Task<IEnumerable<Todo>> GetAllTodosDueTodayAsync();
-        Task<IEnumerable<Todo>> GetAllTodosImportantAsync();
-        Task<IEnumerable<Todo>> GetAllTodosNotCompleteAsync();
-        Task<IEnumerable<Todo>> GetAllTodosOverdueAsync();
-        Task<Todo> GetTodoByIdOrThrowHttpExAsync(Guid id);
+        Task<IEnumerable<TodoDTO>> GetAllTodosCompleteAsync();
+        Task<IEnumerable<TodoDTO>> GetAllTodosDueTodayAsync();
+        Task<IEnumerable<TodoDTO>> GetAllTodosImportantAsync();
+        Task<IEnumerable<TodoDTO>> GetAllTodosNotCompleteAsync();
+        Task<IEnumerable<TodoDTO>> GetAllTodosOverdueAsync();
+        Task<TodoDTO> GetTodoByIdOrThrowHttpExAsync(Guid id);
         void ToggleTodoCompletionAsync(Guid id);
         void ToggleTodoImportanceAsync(Guid id);
-        void UpdateTodoAsync(UpdateTodoCommand command, Guid id);
+        void UpdateTodoAsync(UpdateTodoDTO command, Guid id);
     }
 }

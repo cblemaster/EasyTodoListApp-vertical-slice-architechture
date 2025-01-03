@@ -11,7 +11,7 @@ public class HttpDataService : IHttpDataService
 
     public HttpDataService() => _client = new HttpClient { BaseAddress = new Uri(BASE_URI) };
 
-    public async void CreateTodoAsync(CreateTodoCommand command)
+    public async void CreateTodoAsync(CreateTodoDTO command)
     {
         StringContent content = new(JsonSerializer.Serialize(command));
         content.Headers.ContentType = new("application/json");
@@ -42,32 +42,32 @@ public class HttpDataService : IHttpDataService
             // TODO: Message to UI that the delete failed
         }
     }
-    public async Task<IEnumerable<Todo>> GetAllTodosCompleteAsync()
+    public async Task<IEnumerable<TodoDTO>> GetAllTodosCompleteAsync()
     {
         HttpResponseMessage response = await _client.GetAsync("todos/complete");
         return await DeserializeTodoListAsync(response.Content);
     }
-    public async Task<IEnumerable<Todo>> GetAllTodosDueTodayAsync()
+    public async Task<IEnumerable<TodoDTO>> GetAllTodosDueTodayAsync()
     {
         HttpResponseMessage response = await _client.GetAsync("todos/duetoday");
         return await DeserializeTodoListAsync(response.Content);
     }
-    public async Task<IEnumerable<Todo>> GetAllTodosImportantAsync()
+    public async Task<IEnumerable<TodoDTO>> GetAllTodosImportantAsync()
     {
         HttpResponseMessage response = await _client.GetAsync("todos/important");
         return await DeserializeTodoListAsync(response.Content);
     }
-    public async Task<IEnumerable<Todo>> GetAllTodosNotCompleteAsync()
+    public async Task<IEnumerable<TodoDTO>> GetAllTodosNotCompleteAsync()
     {
         HttpResponseMessage response = await _client.GetAsync("todos/notcomplete");
         return await DeserializeTodoListAsync(response.Content);
     }
-    public async Task<IEnumerable<Todo>> GetAllTodosOverdueAsync()
+    public async Task<IEnumerable<TodoDTO>> GetAllTodosOverdueAsync()
     {
         HttpResponseMessage response = await _client.GetAsync("todos/overdue");
         return await DeserializeTodoListAsync(response.Content);
     }
-    public async Task<Todo> GetTodoByIdOrThrowHttpExAsync(Guid id)
+    public async Task<TodoDTO> GetTodoByIdOrThrowHttpExAsync(Guid id)
     {
         try
         {
@@ -110,7 +110,7 @@ public class HttpDataService : IHttpDataService
             // TODO: Message to UI that the toggle todo importance failed
         }
     }
-    public async void UpdateTodoAsync(UpdateTodoCommand command, Guid id)
+    public async void UpdateTodoAsync(UpdateTodoDTO command, Guid id)
     {
         StringContent content = new(JsonSerializer.Serialize(command));
         content.Headers.ContentType = new("application/json");
@@ -128,28 +128,28 @@ public class HttpDataService : IHttpDataService
         }
     }
 
-    private static async Task<Todo> DeserializeTodoAsync(HttpContent content)
+    private static async Task<TodoDTO> DeserializeTodoAsync(HttpContent content)
     {
         JsonDocument todo = JsonDocument.Parse(await content.ReadAsStringAsync());
         JsonElement todoRoot = todo.RootElement;
         return CreateTodoFromJsonElement(todoRoot);
     }
-    private static async Task<IEnumerable<Todo>> DeserializeTodoListAsync(HttpContent content)
+    private static async Task<IEnumerable<TodoDTO>> DeserializeTodoListAsync(HttpContent content)
     {
         byte[] bytes = await content.ReadAsByteArrayAsync();
         Utf8JsonReader jsonReader = new(bytes);
         JsonDocument json = JsonDocument.ParseValue(ref jsonReader);
         JsonElement.ArrayEnumerator elements = json.RootElement.EnumerateArray();
 
-        List<Todo> todos = [];
+        List<TodoDTO> todos = [];
         foreach (JsonElement element in elements)
         {
-            Todo todo = CreateTodoFromJsonElement(element);
+            TodoDTO todo = CreateTodoFromJsonElement(element);
             todos.Add(todo);
         }
         return todos.AsEnumerable();
     }
-    private static Todo CreateTodoFromJsonElement(JsonElement element)
+    private static TodoDTO CreateTodoFromJsonElement(JsonElement element)
     {
         string description = element.EnumerateObject().Single(t => t.Name.Equals("description", StringComparison.CurrentCultureIgnoreCase) && t.Value.ValueKind.Equals(JsonValueKind.Object)).Value.EnumerateObject().Single(t => t.Name.Equals("value") && t.Value.ValueKind.Equals(JsonValueKind.String)).ToString();
         DateOnly? dueDate = null;
@@ -172,6 +172,6 @@ public class HttpDataService : IHttpDataService
 
         Guid id = Guid.Parse(element.EnumerateObject().Single(t => t.Name.Equals("identifier", StringComparison.CurrentCultureIgnoreCase) && t.Value.ValueKind.Equals(JsonValueKind.Object)).Value.EnumerateObject().Single(t => t.Name.Equals("value", StringComparison.CurrentCultureIgnoreCase) && t.Value.ValueKind.Equals(JsonValueKind.String)).ToString());
 
-        return new Todo(description, dueDate, isImportant, isComplete, createDate, updateDate, id);
+        return new TodoDTO(description, dueDate, isImportant, isComplete, createDate, updateDate, id);
     }
 }

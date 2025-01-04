@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace EasyTodoListApp.UI.Desktop.Services;
 
-public class HttpDataService : IHttpDataService
+public class HttpDataService : IDataService
 {
     private readonly HttpClient _client;
     private const string BASE_URI = "https://localhost:7194";

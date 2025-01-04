@@ -26,9 +26,9 @@
 ## Built with
 + .NET 9/ C# 13
 + Microsoft Visual Studio Community 2022
-+ MediatR
-+ Entity Framework Core
-+ SQLite database provider for EF
++ MediatR 12.4.1 https://www.nuget.org/packages/MediatR/12.4.1
++ Entity Framework Core 9.0.0
++ SQLite database provider for EF 9.0.0
 + Visual Studio Code (for jupyter notebooks)
 + Mermaid js (for architecture diagram)
 ## Improvement opportunities / new features

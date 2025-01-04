@@ -1,5 +1,6 @@
 ﻿
 using CommunityToolkit.Maui;
+using EasyTodoListApp.UI.Desktop.Services;
 using Microsoft.Extensions.Logging;
 
 namespace EasyTodoListApp.UI.Desktop;
@@ -16,7 +17,8 @@ public static class MauiProgram
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-            });
+            })
+            .Services.AddTransient<IDataService, HttpDataService>();
 
 #if DEBUG
         builder.Logging.AddDebug();

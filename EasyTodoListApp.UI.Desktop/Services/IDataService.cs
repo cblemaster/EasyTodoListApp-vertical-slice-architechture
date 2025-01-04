@@ -3,7 +3,7 @@ using EasyTodoListApp.UI.Desktop.Models;
 
 namespace EasyTodoListApp.UI.Desktop.Services
 {
-    public interface IHttpDataService
+    public interface IDataService
     {
         void CreateTodoAsync(CreateTodoDTO command);
         void DeleteTodoAsync(Guid id);

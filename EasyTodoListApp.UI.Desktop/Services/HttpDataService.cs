@@ -182,7 +182,7 @@ public class HttpDataService : IDataService
 
         JsonElement datesElement = datesRoot.Value.EnumerateObject().Single(t => t.NameEquals("updateDate")).Value;
         DateTime? updateDate = datesElement.ValueKind.Equals(JsonValueKind.Null) ? null : datesElement.GetDateTime();
-        
+
         Guid id = identifierRoot.Value.EnumerateObject().Single(t => t.NameEquals("value")).Value.GetGuid();
 
         return new TodoDTO(description, dueDate, isImportant, isComplete, createDate, updateDate, id);

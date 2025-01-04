@@ -8,7 +8,7 @@
              x:DataType="{x:Type pagemodels:AllTodosOverduePageModel}"
              Title="Overdue">
     <ContentPage.Behaviors>
-        <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding PageAppearingCommand, Mode=OneWay}" />
+        <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding PageAppearingAsyncCommand, Mode=OneWay}" />
     </ContentPage.Behaviors>
     <views:TodosCollectionView />
 </ContentPage>

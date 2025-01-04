@@ -14,7 +14,7 @@ public abstract partial class PageModelBase(IDataService dataService) : Observab
     public IReadOnlyCollection<TodoDTO> _todos = default!;
 
     [RelayCommand]
-    public void PageAppearing() => LoadData();
+    public void PageAppearingAsync() => LoadDataAsync();
 
-    public abstract void LoadData();
+    public abstract void LoadDataAsync();
 }

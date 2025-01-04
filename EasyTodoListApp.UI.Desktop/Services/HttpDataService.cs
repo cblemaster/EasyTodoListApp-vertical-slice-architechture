@@ -167,26 +167,23 @@ public class HttpDataService : IDataService
     }
     private static TodoDTO CreateTodoFromJsonElement(JsonElement element)
     {
-        string description = element.EnumerateObject().Single(t => t.Name.Equals("description", StringComparison.CurrentCultureIgnoreCase) && t.Value.ValueKind.Equals(JsonValueKind.Object)).Value.EnumerateObject().Single(t => t.Name.Equals("value") && t.Value.ValueKind.Equals(JsonValueKind.String)).ToString();
-        DateOnly? dueDate = null;
-        bool? isJsonDueDateNull = element.EnumerateObject().Single(t => t.Name.Equals("dueDate", StringComparison.CurrentCultureIgnoreCase) && t.Value.ValueKind.Equals(JsonValueKind.String)).Value.GetString()?.Equals("null", StringComparison.CurrentCultureIgnoreCase);
-        if (isJsonDueDateNull.HasValue && !isJsonDueDateNull.Value)
-        {
-            dueDate = DateOnly.FromDateTime(DateTime.Parse(element.EnumerateObject().Single(t => t.Name.Equals("dueDate", StringComparison.CurrentCultureIgnoreCase) && t.Value.ValueKind.Equals(JsonValueKind.String)).Value.ToString()));
-        }
+        JsonProperty descriptionRoot = element.EnumerateObject().Single(t => t.NameEquals("description"));
+        JsonProperty dueDateRoot = element.EnumerateObject().Single(t => t.NameEquals("dueDate"));
+        JsonProperty isImportantRoot = element.EnumerateObject().Single(t => t.NameEquals("isImportant"));
+        JsonProperty isCompleteRoot = element.EnumerateObject().Single(t => t.NameEquals("isComplete"));
+        JsonProperty datesRoot = element.EnumerateObject().Single(t => t.NameEquals("dates"));
+        JsonProperty identifierRoot = element.EnumerateObject().Single(t => t.NameEquals("identifier"));
 
-        bool isImportant = bool.Parse(element.EnumerateObject().Single(t => t.Name.Equals("isImportant", StringComparison.CurrentCultureIgnoreCase) && t.Value.ValueKind.Equals(JsonValueKind.String)).Value.ToString());
-        bool isComplete = bool.Parse(element.EnumerateObject().Single(t => t.Name.Equals("isComplete", StringComparison.CurrentCultureIgnoreCase) && t.Value.ValueKind.Equals(JsonValueKind.String)).Value.ToString());
-        JsonProperty dates = element.EnumerateObject().Single(t => t.Name.Equals("dates", StringComparison.CurrentCultureIgnoreCase) && t.Value.ValueKind.Equals(JsonValueKind.Object));
-        DateTime createDate = DateTime.Parse(dates.Value.EnumerateObject().Single(t => t.Name.Equals("createDate", StringComparison.CurrentCultureIgnoreCase) && t.Value.ValueKind.Equals(JsonValueKind.String)).ToString());
-        DateTime? updateDate = null;
-        bool? isJsonUpdateDateNull = dates.Value.EnumerateObject().Single(t => t.Name.Equals("updateDate", StringComparison.CurrentCultureIgnoreCase) && t.Value.ValueKind.Equals(JsonValueKind.String)).ToString().Equals("null", StringComparison.CurrentCultureIgnoreCase);
-        if (isJsonUpdateDateNull.HasValue && !isJsonUpdateDateNull.Value)
-        {
-            updateDate = DateTime.Parse(dates.Value.EnumerateObject().Single(t => t.Name.Equals("updateDate", StringComparison.CurrentCultureIgnoreCase) && t.Value.ValueKind.Equals(JsonValueKind.String)).Value.ToString());
-        }
+        string description = descriptionRoot.Value.EnumerateObject().Single(t => t.NameEquals("value")).Value.GetString() ?? string.Empty;
+        DateOnly? dueDate = dueDateRoot.Value.ValueKind.Equals(JsonValueKind.Null) ? null : DateOnly.FromDateTime(dueDateRoot.Value.GetDateTime());
+        bool isImportant = isImportantRoot.Value.GetBoolean();
+        bool isComplete = isCompleteRoot.Value.GetBoolean();
+        DateTime createDate = datesRoot.Value.EnumerateObject().Single(t => t.NameEquals("createDate")).Value.GetDateTime();
 
-        Guid id = Guid.Parse(element.EnumerateObject().Single(t => t.Name.Equals("identifier", StringComparison.CurrentCultureIgnoreCase) && t.Value.ValueKind.Equals(JsonValueKind.Object)).Value.EnumerateObject().Single(t => t.Name.Equals("value", StringComparison.CurrentCultureIgnoreCase) && t.Value.ValueKind.Equals(JsonValueKind.String)).ToString());
+        JsonElement datesElement = datesRoot.Value.EnumerateObject().Single(t => t.NameEquals("updateDate")).Value;
+        DateTime? updateDate = datesElement.ValueKind.Equals(JsonValueKind.Null) ? null : datesElement.GetDateTime();
+        
+        Guid id = identifierRoot.Value.EnumerateObject().Single(t => t.NameEquals("value")).Value.GetGuid();
 
         return new TodoDTO(description, dueDate, isImportant, isComplete, createDate, updateDate, id);
     }

@@ -11,9 +11,9 @@ public class HttpDataService : IHttpDataService
 
     public HttpDataService() => _client = new HttpClient { BaseAddress = new Uri(BASE_URI) };
 
-    public async void CreateTodoAsync(CreateTodoDTO command)
+    public async void CreateTodoAsync(CreateTodoDTO dto)
     {
-        StringContent content = new(JsonSerializer.Serialize(command));
+        StringContent content = new(JsonSerializer.Serialize(dto));
         content.Headers.ContentType = new("application/json");
 
         try
@@ -110,9 +110,25 @@ public class HttpDataService : IHttpDataService
             // TODO: Message to UI that the toggle todo importance failed
         }
     }
-    public async void UpdateTodoAsync(UpdateTodoDTO command, Guid id)
+    public async void UpdateTodoAsync(UpdateTodoDTO dto, Guid id)
     {
-        StringContent content = new(JsonSerializer.Serialize(command));
+        var mappedDto = new
+        {
+            Description = new
+            {
+                Value = dto.Description,
+                IsRequired = true,
+                IsAllowAllWhitespace = false,
+                MaxLength = 100
+            },
+            DueDate = dto.DueDate,
+            Identifier = new
+            {
+                Value = id
+            }
+        };
+
+        StringContent content = new(JsonSerializer.Serialize(mappedDto));
         content.Headers.ContentType = new("application/json");
 
         try

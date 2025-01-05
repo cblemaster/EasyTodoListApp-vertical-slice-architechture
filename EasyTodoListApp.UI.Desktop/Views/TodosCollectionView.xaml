@@ -5,51 +5,81 @@
              xmlns:models="clr-namespace:EasyTodoListApp.UI.Desktop.Models"
              x:DataType="{x:Type pagemodels:PageModelBase}"
              x:Class="EasyTodoListApp.UI.Desktop.Views.TodosCollectionView">
-    <CollectionView ItemsSource="{Binding Todos, Mode=TwoWay}" EmptyView="No todos found!" SelectionMode="None">
+    <ContentView.Resources>
+        <Style TargetType="Button">
+            <Setter Property="TextColor" Value="Magenta" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderWidth" Value="0" />
+            <Setter Property="HorizontalOptions" Value="Start" />
+        </Style>
+        <Style TargetType="Label" x:Key="LabelStyle">
+            <Setter Property="TextColor" Value="DarkSlateBlue" />
+        </Style>
+        <Style TargetType="Label" x:Key="AboutLabelStyle">
+            <Setter Property="TextColor" Value="LightGray" />
+            <Setter Property="Margin" Value="40,0,0,40" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="HorizontalOptions" Value="CenterAndExpand" />
+            <Setter Property="HorizontalTextAlignment" Value="Center" />
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStatesLocal">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Disabled">
+                            <VisualState.Setters>
+                                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="PointerOver">
+                            <VisualState.Setters>
+                                <!--<Setter Property="Scale" Value="105" />-->
+                                <Setter Property="TextColor" Value="DarkBlue" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentView.Resources>
+    <CollectionView ItemsSource="{Binding Todos, Mode=OneWay}" EmptyView="No todos found!" SelectionMode="None">
         <CollectionView.ItemsLayout>
-            <GridItemsLayout Orientation="Vertical" />
+            <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="5" />
         </CollectionView.ItemsLayout>
         <CollectionView.Header>
-            <DataTemplate>
-                <Grid ColumnDefinitions="2*,2*,1*,1*,2*,2*,1*,1*">
-                    <Label Text="description" />
-                    <Label Text="due date" Grid.Column="1" />
-                    <Label Text="important?" Grid.Column="2" />
-                    <Label Text="complete?" Grid.Column="3" />
-                    <Label Text="create date" Grid.Column="4" />
-                    <Label Text="update date" Grid.Column="5" />
-                </Grid>
-            </DataTemplate>
+            <Label Text="{Binding About, Mode=OneTime}" Style="{StaticResource AboutLabelStyle}" MaxLines="3" />
         </CollectionView.Header>
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="{x:Type models:TodoDTO}">
-                <Grid ColumnDefinitions="2*,2*,1*,1*,2*,2*,1*,1*" ColumnSpacing="10">
-                    <Editor Text="{Binding Description, Mode=TwoWay}" IsEnabled="False" />
-                    <Label Text="none" Grid.Column="1" x:Name="NullDueDateLabel">
-                        <!--<Label.Triggers>
-                            <DataTrigger Binding="{Binding DueDate, Mode=TwoWay}" Value="{x:Null}" TargetType="Label">
-                                <Setter Property="IsVisible" Value="True" />
-                            </DataTrigger>
-                        </Label.Triggers>-->
-                    </Label>
-                    <DatePicker Grid.Column="1">
-                        <DatePicker.Triggers>
-                            <DataTrigger Binding="{x:Reference NullDueDateLabel.IsVisible}" Value="False" TargetType="DatePicker">
-                                <Setter Property="IsVisible" Value="True" />
-                            </DataTrigger>
-                            <DataTrigger Binding="{x:Reference NullDueDateLabel.IsVisible}" Value="False" TargetType="DatePicker">
-                                <Setter Property="Date" Value="{Binding DueDate, Mode=TwoWay}" />
-                            </DataTrigger>
-                        </DatePicker.Triggers>
-                    </DatePicker>
-                    <Switch IsToggled="{Binding IsImportant, Mode=TwoWay}" IsEnabled="False" Grid.Column="2" />
-                    <Switch IsToggled="{Binding IsComplete, Mode=TwoWay}" IsEnabled="False" Grid.Column="3" />
-                    <DatePicker Date="{Binding CreateDate, Mode=TwoWay}" IsEnabled="False" Grid.Column="4" />
-                    <DatePicker Date="{Binding UpdateDate, Mode=TwoWay}" IsEnabled="False" Grid.Column="5" />
-                    <Button Command="{Binding Source={RelativeSource AncestorType={x:Type pagemodels:PageModelBase}}, Path=UpdateTodoAsyncCommand}" Text="update" Grid.Column="6" />
-                    <Button Command="{Binding Source={RelativeSource AncestorType={x:Type pagemodels:PageModelBase}}, Path=DeleteTodoAsyncCommand}" Text="delete" Grid.Column="7" />
-                </Grid>
+                <Border Stroke="Magenta" HorizontalOptions="Center" MaximumWidthRequest="600">
+                    <Grid ColumnDefinitions="1*,1*" RowDefinitions="3*,2*" RowSpacing="30" Margin="20">
+                        <VerticalStackLayout Grid.Column="0" Grid.Row="0" Margin="0,10,0,0">
+                            <Label Text="{Binding Description, Mode=OneWay}" Style="{StaticResource LabelStyle}" MaxLines="2" FontAttributes="Bold" FontSize="18" />
+                            <Label Text="{Binding DueDate, Mode=OneWay, StringFormat='due date: {0:D}', TargetNullValue='due date: none'}" Style="{StaticResource LabelStyle}" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1" Grid.Row="0">
+                            <HorizontalStackLayout Spacing="8">
+                                <Label Style="{StaticResource LabelStyle}" Text="important?" VerticalOptions="Center" />
+                                <Switch IsToggled="{Binding IsImportant, Mode=OneWay}" IsEnabled="False" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Spacing="12">
+                                <Label Style="{StaticResource LabelStyle}" Text="complete?" VerticalOptions="Center" />
+                                <Switch IsToggled="{Binding IsComplete, Mode=OneWay}" IsEnabled="False" />
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="0" Grid.Row="1" Margin="0,0,0,10">
+                            <Label Text="{Binding CreateDate, Mode=OneWay, StringFormat='create date: {0:D}'}" Style="{StaticResource LabelStyle}" />
+                            <Label Text="{Binding UpdateDate, Mode=OneWay, StringFormat='update date: {0:D}', TargetNullValue='update date: none'}" Style="{StaticResource LabelStyle}" />
+                        </VerticalStackLayout>
+                        <HorizontalStackLayout Grid.Column="1" Grid.Row="1">
+                            <Button Text="Update" />
+                            <Button Text="Delete" />
+                        </HorizontalStackLayout>
+                    </Grid>
+                </Border>
             </DataTemplate>
         </CollectionView.ItemTemplate>
+        <CollectionView.Footer>
+            <Button Text="Create" Margin="40,0,0,40" FontSize="18" />
+        </CollectionView.Footer>
     </CollectionView>
 </ContentView>

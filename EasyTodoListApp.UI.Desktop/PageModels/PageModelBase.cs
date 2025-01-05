@@ -15,6 +15,12 @@ public abstract partial class PageModelBase(IDataService dataService) : Observab
 
     [RelayCommand]
     public void PageAppearingAsync() => LoadDataAsync();
+    [RelayCommand]
+    public async void CreateTodoAsync() { }
+    [RelayCommand]
+    public async void DeleteTodoAsync() { }
+    [RelayCommand]
+    public async void UpdateTodoAsync() { }
 
     public abstract void LoadDataAsync();
 }

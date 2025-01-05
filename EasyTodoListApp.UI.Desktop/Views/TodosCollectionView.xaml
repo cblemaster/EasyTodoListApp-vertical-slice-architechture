@@ -1,13 +1,54 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pagemodels="clr-namespace:EasyTodoListApp.UI.Desktop.PageModels"
+             xmlns:models="clr-namespace:EasyTodoListApp.UI.Desktop.Models"
+             x:DataType="{x:Type pagemodels:PageModelBase}"
              x:Class="EasyTodoListApp.UI.Desktop.Views.TodosCollectionView">
-    <CollectionView ItemsSource="{Binding }" SelectionMode="None">
+    <CollectionView ItemsSource="{Binding Todos, Mode=TwoWay}" EmptyView="No todos found!" SelectionMode="None">
         <CollectionView.ItemsLayout>
-            <GridItemsLayout Span="2" Orientation="Vertical" />
+            <GridItemsLayout Orientation="Vertical" />
         </CollectionView.ItemsLayout>
-        <CollectionView.ItemTemplate>
+        <CollectionView.Header>
             <DataTemplate>
+                <Grid ColumnDefinitions="2*,2*,1*,1*,2*,2*,1*,1*">
+                    <Label Text="description" />
+                    <Label Text="due date" Grid.Column="1" />
+                    <Label Text="important?" Grid.Column="2" />
+                    <Label Text="complete?" Grid.Column="3" />
+                    <Label Text="create date" Grid.Column="4" />
+                    <Label Text="update date" Grid.Column="5" />
+                </Grid>
+            </DataTemplate>
+        </CollectionView.Header>
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="{x:Type models:TodoDTO}">
+                <Grid ColumnDefinitions="2*,2*,1*,1*,2*,2*,1*,1*" ColumnSpacing="10">
+                    <Editor Text="{Binding Description, Mode=TwoWay}" IsEnabled="False" />
+                    <Label Text="none" Grid.Column="1" x:Name="NullDueDateLabel">
+                        <!--<Label.Triggers>
+                            <DataTrigger Binding="{Binding DueDate, Mode=TwoWay}" Value="{x:Null}" TargetType="Label">
+                                <Setter Property="IsVisible" Value="True" />
+                            </DataTrigger>
+                        </Label.Triggers>-->
+                    </Label>
+                    <DatePicker Grid.Column="1">
+                        <DatePicker.Triggers>
+                            <DataTrigger Binding="{x:Reference NullDueDateLabel.IsVisible}" Value="False" TargetType="DatePicker">
+                                <Setter Property="IsVisible" Value="True" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{x:Reference NullDueDateLabel.IsVisible}" Value="False" TargetType="DatePicker">
+                                <Setter Property="Date" Value="{Binding DueDate, Mode=TwoWay}" />
+                            </DataTrigger>
+                        </DatePicker.Triggers>
+                    </DatePicker>
+                    <Switch IsToggled="{Binding IsImportant, Mode=TwoWay}" IsEnabled="False" Grid.Column="2" />
+                    <Switch IsToggled="{Binding IsComplete, Mode=TwoWay}" IsEnabled="False" Grid.Column="3" />
+                    <DatePicker Date="{Binding CreateDate, Mode=TwoWay}" IsEnabled="False" Grid.Column="4" />
+                    <DatePicker Date="{Binding UpdateDate, Mode=TwoWay}" IsEnabled="False" Grid.Column="5" />
+                    <Button Command="{Binding Source={RelativeSource AncestorType={x:Type pagemodels:PageModelBase}}, Path=UpdateTodoAsyncCommand}" Text="update" Grid.Column="6" />
+                    <Button Command="{Binding Source={RelativeSource AncestorType={x:Type pagemodels:PageModelBase}}, Path=DeleteTodoAsyncCommand}" Text="delete" Grid.Column="7" />
+                </Grid>
             </DataTemplate>
         </CollectionView.ItemTemplate>
     </CollectionView>

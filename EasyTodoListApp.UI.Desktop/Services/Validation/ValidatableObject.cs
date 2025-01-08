@@ -9,9 +9,9 @@ public partial class ValidatableObject<T> : ObservableObject, IValidity
     private IEnumerable<string> _errors;
     private bool _isValid;
     private T _value;
-    
+
     public List<IValidationRule<T>> Validations { get; } = [];
-    
+
     public IEnumerable<string> Errors
     {
         get => _errors;

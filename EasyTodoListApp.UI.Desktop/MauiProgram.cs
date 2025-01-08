@@ -24,7 +24,8 @@ public static class MauiProgram
                 .AddTransient<AllTodosDueTodayPageModel>()
                 .AddTransient<AllTodosImportantPageModel>()
                 .AddTransient<AllTodosNotCompletePageModel>()
-                .AddTransient<AllTodosOverduePageModel>();
+                .AddTransient<AllTodosOverduePageModel>()
+                .AddTransient<CreateTodoPageModel>();
         return builder.Build();
     }
 }

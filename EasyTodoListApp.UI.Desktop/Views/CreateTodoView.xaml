@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pagemodels="clr-namespace:EasyTodoListApp.UI.Desktop.PageModels"
+             x:DataType="{x:Type pagemodels:CreateTodoPageModel}"
+             x:Class="EasyTodoListApp.UI.Desktop.Views.CreateTodoView">
+    <VerticalStackLayout Margin="20" Spacing="15">
+        <Editor Text="{Binding Description, Mode=TwoWay}"
+                MaxLength="100" 
+                MinimumWidthRequest="200" 
+                MinimumHeightRequest="50" 
+                Placeholder="description" 
+                HorizontalOptions="StartAndExpand" 
+                VerticalOptions="Center" />
+        <HorizontalStackLayout Spacing="10">
+            <Label Text="due date" />
+            <DatePicker Date="{Binding DueDate, Mode=TwoWay}">
+                <DatePicker.Triggers>
+                    <DataTrigger TargetType="DatePicker" Binding="{Binding Source={x:Reference DueDateNullIfChecked}, Mode=TwoWay, Path=IsChecked}" Value="True">
+                        <Setter Property="IsEnabled" Value="False" />
+                    </DataTrigger>
+                </DatePicker.Triggers>
+            </DatePicker>
+            <Label Text="check for no due date" />
+            <CheckBox x:Name="DueDateNullIfChecked" />
+        </HorizontalStackLayout>
+        <HorizontalStackLayout>
+            <Label Text="important?" />
+            <Switch IsToggled="{Binding IsImportant, Mode=TwoWay}" />
+        </HorizontalStackLayout>
+        <HorizontalStackLayout>
+            <Label Text="important?" />
+            <Switch IsToggled="{Binding IsComplete, Mode=TwoWay}" />
+        </HorizontalStackLayout>
+        <HorizontalStackLayout>
+            <Button Command="{Binding CancelCommand, Mode=OneWay}" Text="Cancel" />
+            <Button Command="{Binding SaveCommand, Mode=OneWay}" Text="Save" />
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ContentView>

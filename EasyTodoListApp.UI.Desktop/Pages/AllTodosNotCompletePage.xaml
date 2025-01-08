@@ -8,7 +8,7 @@
              x:DataType="{x:Type pagemodels:AllTodosNotCompletePageModel}"
              Title="Not complete">
     <ContentPage.Behaviors>
-        <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding PageAppearingAsyncCommand, Mode=OneWay}" />
+        <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding PageAppearingCommand, Mode=OneWay}" />
     </ContentPage.Behaviors>
     <views:TodosCollectionView />
 </ContentPage>

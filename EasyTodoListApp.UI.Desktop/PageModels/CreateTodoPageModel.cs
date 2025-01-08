@@ -21,7 +21,7 @@ namespace EasyTodoListApp.UI.Desktop.PageModels
         public override void LoadDataAsync() { }
 
         [RelayCommand]
-        public async Task CancelAsync() { }
+        public async Task CancelAsync() => await Shell.Current.Navigation.PopModalAsync();
 
         [RelayCommand]
         public async Task SaveAsync() { }

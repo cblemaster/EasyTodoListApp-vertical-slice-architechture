@@ -4,16 +4,24 @@
              xmlns:pagemodels="clr-namespace:EasyTodoListApp.UI.Desktop.PageModels"
              x:DataType="{x:Type pagemodels:CreateTodoPageModel}"
              x:Class="EasyTodoListApp.UI.Desktop.Views.CreateTodoView">
-    <VerticalStackLayout Margin="20" Spacing="15">
-        <Editor Text="{Binding Description, Mode=TwoWay}"
+    <ContentView.Resources>
+        <Style TargetType="Button">
+            <Setter Property="TextColor" Value="Magenta" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderWidth" Value="0" />
+            <Setter Property="HorizontalOptions" Value="Start" />
+        </Style>
+    </ContentView.Resources>
+    <VerticalStackLayout Margin="20" Spacing="20">
+        <Editor Text="{Binding Description.Value, Mode=TwoWay}"
                 MaxLength="100" 
-                MinimumWidthRequest="200" 
-                MinimumHeightRequest="50" 
+                MinimumWidthRequest="400" 
+                MinimumHeightRequest="100" 
                 Placeholder="description" 
                 HorizontalOptions="StartAndExpand" 
                 VerticalOptions="Center" />
         <HorizontalStackLayout Spacing="10">
-            <Label Text="due date" />
+            <Label Text="due date" VerticalOptions="Center" />
             <DatePicker Date="{Binding DueDate, Mode=TwoWay}">
                 <DatePicker.Triggers>
                     <DataTrigger TargetType="DatePicker" Binding="{Binding Source={x:Reference DueDateNullIfChecked}, Mode=TwoWay, Path=IsChecked}" Value="True">
@@ -21,16 +29,16 @@
                     </DataTrigger>
                 </DatePicker.Triggers>
             </DatePicker>
-            <Label Text="check for no due date" />
+            <Label Text="check for no due date" VerticalOptions="Center" />
             <CheckBox x:Name="DueDateNullIfChecked" />
         </HorizontalStackLayout>
         <HorizontalStackLayout>
-            <Label Text="important?" />
-            <Switch IsToggled="{Binding IsImportant, Mode=TwoWay}" />
+            <Label Text="important?" VerticalOptions="Center" />
+            <Switch IsToggled="{Binding IsImportant, Mode=TwoWay}" Margin="10,0,0,0" />
         </HorizontalStackLayout>
         <HorizontalStackLayout>
-            <Label Text="important?" />
-            <Switch IsToggled="{Binding IsComplete, Mode=TwoWay}" />
+            <Label Text="complete?" VerticalOptions="Center" />
+            <Switch IsToggled="{Binding IsComplete, Mode=TwoWay}" Margin="10,0,0,0" />
         </HorizontalStackLayout>
         <HorizontalStackLayout>
             <Button Command="{Binding CancelCommand, Mode=OneWay}" Text="Cancel" />

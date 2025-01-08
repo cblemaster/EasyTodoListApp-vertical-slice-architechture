@@ -79,7 +79,7 @@
             </DataTemplate>
         </CollectionView.ItemTemplate>
         <CollectionView.Footer>
-            <Button Text="Create" Margin="40,0,0,40" FontSize="18" />
+            <Button Command="{Binding CreateTodoCommand, Mode=OneWay}" Text="Create" Margin="40,0,0,40" FontSize="18" />
         </CollectionView.Footer>
     </CollectionView>
 </ContentView>

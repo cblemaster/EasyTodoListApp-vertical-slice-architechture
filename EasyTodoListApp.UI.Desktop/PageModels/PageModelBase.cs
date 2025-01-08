@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EasyTodoListApp.UI.Desktop.Models;
+using EasyTodoListApp.UI.Desktop.Pages;
 using EasyTodoListApp.UI.Desktop.Services;
 
 namespace EasyTodoListApp.UI.Desktop.PageModels;
@@ -16,7 +17,7 @@ public abstract partial class PageModelBase(IDataService dataService) : Observab
     [RelayCommand]
     public void PageAppearing() => LoadDataAsync();
     [RelayCommand]
-    public async Task CreateTodoAsync() { }
+    public async Task CreateTodoAsync() => await Shell.Current.Navigation.PushModalAsync(new CreateTodoModalPage());
     [RelayCommand]
     public async Task DeleteTodoAsync() { }
     [RelayCommand]

@@ -1,4 +1,5 @@
-﻿using EasyTodoListApp.UI.Desktop.Services.Validation.Interfaces;
+﻿
+using EasyTodoListApp.UI.Desktop.Services.Validation.Interfaces;
 
 namespace EasyTodoListApp.UI.Desktop.Services.Validation.Rules;
 

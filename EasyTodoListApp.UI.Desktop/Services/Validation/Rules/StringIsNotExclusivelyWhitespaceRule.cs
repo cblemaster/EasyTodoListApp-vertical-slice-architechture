@@ -1,4 +1,5 @@
-﻿using EasyTodoListApp.UI.Desktop.Services.Validation.Interfaces;
+﻿
+using EasyTodoListApp.UI.Desktop.Services.Validation.Interfaces;
 using System.Text.RegularExpressions;
 
 namespace EasyTodoListApp.UI.Desktop.Services.Validation.Rules;

@@ -1,4 +1,5 @@
-﻿namespace EasyTodoListApp.UI.Desktop.Services.Validation.Interfaces;
+﻿
+namespace EasyTodoListApp.UI.Desktop.Services.Validation.Interfaces;
 
 public interface IValidity
 {

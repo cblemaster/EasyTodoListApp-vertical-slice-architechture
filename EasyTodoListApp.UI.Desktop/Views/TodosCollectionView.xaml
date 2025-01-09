@@ -12,9 +12,6 @@
             <Setter Property="BorderWidth" Value="0" />
             <Setter Property="HorizontalOptions" Value="Start" />
         </Style>
-        <Style TargetType="Label" x:Key="LabelStyle">
-            <Setter Property="TextColor" Value="DarkSlateBlue" />
-        </Style>
         <Style TargetType="Label" x:Key="AboutLabelStyle">
             <Setter Property="TextColor" Value="LightGray" />
             <Setter Property="Margin" Value="40,0,40,40" />
@@ -40,37 +37,68 @@
                 </VisualStateGroupList>
             </Setter>
         </Style>
+        <Style TargetType="Label" x:Key="LabelStyle">
+            <Setter Property="TextColor" Value="DarkSlateBlue" />
+            <Setter Property="VerticalOptions" Value="Center" />
+        </Style>
+        <Style TargetType="Switch">
+            <Setter Property="IsEnabled" Value="False" />
+        </Style>
+        <Style TargetType="VerticalStackLayout">
+            <Setter Property="Margin" Value="0,10,0,0" />
+        </Style>
     </ContentView.Resources>
-    <CollectionView ItemsSource="{Binding Todos, Mode=OneWay}" EmptyView="No todos found!" SelectionMode="None">
+    <CollectionView ItemsSource="{Binding Todos, Mode=OneWay}" 
+                    EmptyView="No todos found!" 
+                    SelectionMode="None">
         <CollectionView.ItemsLayout>
-            <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="5" />
+            <GridItemsLayout Orientation="Vertical" 
+                             VerticalItemSpacing="5" />
         </CollectionView.ItemsLayout>
         <CollectionView.Header>
-            <Label Text="{Binding About, Mode=OneTime}" Style="{StaticResource AboutLabelStyle}" MaxLines="3" />
+            <Label Text="{Binding About, Mode=OneTime}" 
+                   Style="{StaticResource AboutLabelStyle}" 
+                   MaxLines="3" />
         </CollectionView.Header>
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="{x:Type models:TodoDTO}">
-                <Border Stroke="Magenta" HorizontalOptions="Center" MaximumWidthRequest="600">
-                    <Grid ColumnDefinitions="3*,1*" RowDefinitions="3*,2*" RowSpacing="30" Margin="20">
-                        <VerticalStackLayout Grid.Column="0" Grid.Row="0" Margin="0,10,0,0">
-                            <Label Text="{Binding Description, Mode=OneWay}" Style="{StaticResource LabelStyle}" MaxLines="2" FontAttributes="Bold" FontSize="18" />
-                            <Label Text="{Binding DueDate, Mode=OneWay, StringFormat='due date: {0:D}', TargetNullValue='due date: none'}" Style="{StaticResource LabelStyle}" />
+                <Border Stroke="Magenta" 
+                        HorizontalOptions="Center" 
+                        MaximumWidthRequest="600"
+                        Margin="20">
+                    <Grid ColumnDefinitions="3*,1*" 
+                          RowDefinitions="3*,2*" 
+                          RowSpacing="30">
+                        <VerticalStackLayout Grid.Column="0" 
+                                             Grid.Row="0">
+                            <Label Text="{Binding Description, Mode=OneWay}" 
+                                   Style="{StaticResource LabelStyle}" 
+                                   MaxLines="2" 
+                                   FontAttributes="Bold" 
+                                   FontSize="18" />
+                            <Label Text="{Binding DueDate, Mode=OneWay, StringFormat='due date: {0:D}', TargetNullValue='due date: none'}"
+                                   Style="{StaticResource LabelStyle}" />
                         </VerticalStackLayout>
-                        <VerticalStackLayout Grid.Column="1" Grid.Row="0" Margin="0,10,0,0">
+                        <VerticalStackLayout Grid.Column="1" 
+                                             Grid.Row="0">
                             <HorizontalStackLayout Spacing="8">
-                                <Label Style="{StaticResource LabelStyle}" Text="important?" VerticalOptions="Center" />
-                                <Switch IsToggled="{Binding IsImportant, Mode=OneWay}" IsEnabled="False" />
+                                <Label Style="{StaticResource LabelStyle}" Text="important?" />
+                                <Switch IsToggled="{Binding IsImportant, Mode=OneWay}" />
                             </HorizontalStackLayout>
                             <HorizontalStackLayout Spacing="12">
-                                <Label Style="{StaticResource LabelStyle}" Text="complete?" VerticalOptions="Center" />
-                                <Switch IsToggled="{Binding IsComplete, Mode=OneWay}" IsEnabled="False" />
+                                <Label Style="{StaticResource LabelStyle}" Text="complete?" />
+                                <Switch IsToggled="{Binding IsComplete, Mode=OneWay}" />
                             </HorizontalStackLayout>
                         </VerticalStackLayout>
-                        <VerticalStackLayout Grid.Column="0" Grid.Row="1" Margin="0,10,0,0">
-                            <Label Text="{Binding CreateDate, Mode=OneWay, StringFormat='create date: {0:D}'}" Style="{StaticResource LabelStyle}" />
-                            <Label Text="{Binding UpdateDate, Mode=OneWay, StringFormat='update date: {0:D}', TargetNullValue='update date: none'}" Style="{StaticResource LabelStyle}" />
+                        <VerticalStackLayout Grid.Column="0" 
+                                             Grid.Row="1">
+                            <Label Text="{Binding CreateDate, Mode=OneWay, StringFormat='create date: {0:D}'}" 
+                                   Style="{StaticResource LabelStyle}" />
+                            <Label Text="{Binding UpdateDate, Mode=OneWay, StringFormat='update date: {0:D}', TargetNullValue='update date: none'}" 
+                                   Style="{StaticResource LabelStyle}" />
                         </VerticalStackLayout>
-                        <HorizontalStackLayout Grid.Column="1" Grid.Row="1" Margin="0,10,0,0">
+                        <HorizontalStackLayout Grid.Column="1" 
+                                               Grid.Row="1">
                             <Button Text="Update" />
                             <Button Text="Delete" />
                         </HorizontalStackLayout>
@@ -79,7 +107,10 @@
             </DataTemplate>
         </CollectionView.ItemTemplate>
         <CollectionView.Footer>
-            <Button Command="{Binding CreateTodoCommand, Mode=OneWay}" Text="Create" Margin="40,0,0,40" FontSize="18" />
+            <Button Command="{Binding CreateTodoCommand, Mode=OneWay}" 
+                    Text="Create" 
+                    Margin="40,0,0,40" 
+                    FontSize="18" />
         </CollectionView.Footer>
     </CollectionView>
 </ContentView>

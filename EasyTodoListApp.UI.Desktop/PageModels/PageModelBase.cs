@@ -12,16 +12,16 @@ public abstract partial class PageModelBase(IDataService dataService) : Observab
     protected readonly IDataService _dataService = dataService;
 
     [ObservableProperty]
-    public IReadOnlyCollection<TodoDTO> _todos = default!;
+    public partial IReadOnlyCollection<TodoDTO> Todos { get => field; set; } = [];
 
     [RelayCommand]
     public void PageAppearing() => LoadDataAsync();
     [RelayCommand]
-    public async Task CreateTodoAsync() => await Shell.Current.Navigation.PushModalAsync(new CreateTodoModalPage());
+    public static async Task CreateTodoAsync() => await Shell.Current.Navigation.PushModalAsync(new CreateTodoModalPage());
     [RelayCommand]
-    public async Task DeleteTodoAsync() { }
+    public static async Task DeleteTodoAsync() { }
     [RelayCommand]
-    public async Task UpdateTodoAsync() { }
+    public static async Task UpdateTodoAsync() { }
 
     public abstract string About { get; }
     public abstract void LoadDataAsync();

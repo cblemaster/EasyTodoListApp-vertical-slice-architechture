@@ -10,19 +10,23 @@ namespace EasyTodoListApp.UI.Desktop.PageModels
     public partial class CreateTodoPageModel : PageModelBase
     {
         [ObservableProperty]
-        public ValidatableObject<string> _description = new() { Value = string.Empty };
-        [ObservableProperty]
-        public DateOnly? _dueDate;
-        [ObservableProperty]
-        public bool _isImportant;
-        [ObservableProperty]
-        public bool _isComplete;
-        [ObservableProperty]
+        public partial ValidatableObject<string> Description { get => field; set; } = new ValidatableObject<string>() { Value = string.Empty };
         
+        [ObservableProperty]
+        public partial DateOnly? DueDate { get => field; set => field = value; }
+                
+        [ObservableProperty]
+        public partial bool IsImportant { get =>  field; set; }
+        
+        [ObservableProperty]
+        public partial bool IsComplete { get => field; set; }
+                
+        [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(SaveCommand))]
-        private bool _isValid;
+        public partial bool IsValid { get =>  field; set; }
         
-        
+        public override string About => "page for creating todos";
+        public static DateOnly? DefaultDate => DateOnly.FromDateTime(DateTime.Today);
 
         public CreateTodoPageModel(IDataService dataService) : base(dataService)
         {
@@ -30,12 +34,11 @@ namespace EasyTodoListApp.UI.Desktop.PageModels
             Description.Validations.Add(new StringIsNotExclusivelyWhitespaceRule<string> { ValidationMessage = "Description cannot be exclusively whitespace." });
             Description.Validations.Add(new StringDoesNotExceedLengthOfOneHundredRule<string> { ValidationMessage = "Description must be 100 characters or fewer." });
         }
-
-        public override string About => "page for creating todos";
+        
         public override void LoadDataAsync() { }
 
         [RelayCommand]
-        public async Task CancelAsync() => await Shell.Current.Navigation.PopModalAsync();
+        public static async Task CancelAsync() => await Shell.Current.Navigation.PopModalAsync();
 
         [RelayCommand(CanExecute = nameof(IsValid))]
         public async Task SaveAsync() { }

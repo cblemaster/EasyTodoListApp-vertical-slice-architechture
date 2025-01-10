@@ -4,6 +4,7 @@
              xmlns:views="clr-namespace:EasyTodoListApp.UI.Desktop.Views"
              xmlns:pagemodels="clr-namespace:EasyTodoListApp.UI.Desktop.PageModels"
              x:Class="EasyTodoListApp.UI.Desktop.Pages.CreateTodoModalPage"
-             x:DataType="{x:Type pagemodels:CreateTodoPageModel}">
+             x:DataType="{x:Type pagemodels:CreateTodoPageModel}"
+             Title="Create todo">
     <views:CreateTodoView />
 </ContentPage>

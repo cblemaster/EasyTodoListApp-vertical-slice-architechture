@@ -52,7 +52,7 @@
                 </DatePicker.Triggers>
             </DatePicker>
             <Label Text="check for no due date" />
-            <CheckBox x:Name="DueDateNullIfChecked" />
+            <CheckBox x:Name="DueDateNullIfChecked" />  <!--TODO Command to set due date = null when checked-->
         </HorizontalStackLayout>
         <HorizontalStackLayout>
             <Label Text="important?" />

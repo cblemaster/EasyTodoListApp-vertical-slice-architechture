@@ -3,10 +3,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="clr-namespace:EasyTodoListApp.Desktop.Converters"
+             xmlns:controls="clr-namespace:EasyTodoListApp.Desktop.Controls"
+             DataContext="{x:Type controls:TodoListControlModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450"
+             d:DesignWidth="800">
     <UserControl.Resources>
-        <ControlTemplate x:Key="TodoControl" TargetType="ItemsControl">
+        <converters:NullableDateOnlyToStringConverter x:Key="NullableDateOnlyToStringConverter"/>
+        <converters:NullableDateTimeToStringConverter x:Key="NullableDateTimeToStringConverter"/>
+        <converters:BoolToYesNoConverter x:Key="BoolToYesNoConverter"/>
+        <ControlTemplate x:Key="TodoControl"
+                         TargetType="ItemsControl">
             <Grid Width="300"
                   Height="169"
                   Background="LightGoldenrodYellow">
@@ -19,20 +27,20 @@
                     <RowDefinition Height="2*"/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.ColumnSpan="2"
-                           Text="description description description description description description description description desc"
+                           Text="{Binding Description, Mode=OneWay}"
                            FontWeight="Bold"
                            TextWrapping="Wrap"
                            Margin="10,10,0,0"/>
                 <StackPanel Grid.Row="1" Margin="10,10,0,0">
-                    <TextBlock Text="due date: Saturday January 11, 2025"
+                    <TextBlock Text="{Binding DueDate, Mode=OneWay,  Converter={StaticResource NullableDateOnlyToStringConverter}, StringFormat='due date: {0}'}"
                                TextWrapping="Wrap"/>
-                    <Label Content="important?: YES"/>
-                    <Label Content="complete?: NO"/>
+                    <Label Content="{Binding IsImportant, Mode=OneWay, Converter={StaticResource BoolToYesNoConverter}, StringFormat='important: {0}'}"/>
+                    <Label Content="{Binding IsComplete, Mode=OneWay, Converter={StaticResource BoolToYesNoConverter}, StringFormat='complete: {0}'}"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Grid.Row="1" Margin="10,10,0,0">
-                    <TextBlock Text="create date: Thursday January 9, 2025"
+                    <TextBlock Text="{Binding CreateDate, Mode=OneWay, StringFormat=create date: {0:D}}"
                                TextWrapping="Wrap"/>
-                    <TextBlock Text="update date: Friday January 10, 2025"
+                    <TextBlock Text="{Binding UpdateDate, Mode=OneWay, Converter={StaticResource NullableDateOnlyToStringConverter}, StringFormat=update date: {0}}"
                                TextWrapping="Wrap"/>
                     <StackPanel Orientation="Horizontal">
                         <Button Content="update"/>

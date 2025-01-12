@@ -13,7 +13,7 @@ public class HttpDataService : IDataService
 
     public HttpDataService() => _client = new HttpClient { BaseAddress = new Uri(BASE_URI) };
 
-    public async Task<DataServiceResponse<string>> CreateTodoAsync(CreateTodoDTO dto)
+    public async Task<DataServiceResponse<string>> TryCreateTodoAsync(CreateTodoDTO dto)
     {
         StringContent content = new(JsonSerializer.Serialize(dto));
         content.Headers.ContentType = new("application/json");
@@ -30,7 +30,7 @@ public class HttpDataService : IDataService
             return new DataServiceResponse<string>() { ResponseType = ResponseType.Failure, Messgage = message };
         }
     }
-    public async Task<DataServiceResponse<string>> DeleteTodoAsync(Guid id)
+    public async Task<DataServiceResponse<string>> TryDeleteTodoAsync(Guid id)
     {
         try
         {
@@ -69,7 +69,7 @@ public class HttpDataService : IDataService
         HttpResponseMessage response = await _client.GetAsync("todos/overdue");
         return await DeserializeTodoListAsync(response.Content);
     }
-    public async Task<DataServiceResponse<TodoDTO>> GetTodoByIdOrThrowHttpExAsync(Guid id)
+    public async Task<DataServiceResponse<TodoDTO>> TryGetTodoByIdOrThrowHttpExAsync(Guid id)
     {
         try
         {
@@ -85,7 +85,7 @@ public class HttpDataService : IDataService
             throw;
         }
     }
-    public async Task<DataServiceResponse<string>> ToggleTodoCompletionAsync(Guid id)
+    public async Task<DataServiceResponse<string>> TryToggleTodoCompletionAsync(Guid id)
     {
         try
         {
@@ -99,7 +99,7 @@ public class HttpDataService : IDataService
             return new DataServiceResponse<string>() { ResponseType = ResponseType.Failure, Messgage = message };
         }
     }
-    public async Task<DataServiceResponse<string>> ToggleTodoImportanceAsync(Guid id)
+    public async Task<DataServiceResponse<string>> TryToggleTodoImportanceAsync(Guid id)
     {
         try
         {
@@ -113,7 +113,7 @@ public class HttpDataService : IDataService
             return new DataServiceResponse<string>() { ResponseType = ResponseType.Failure, Messgage = message };
         }
     }
-    public async Task<DataServiceResponse<string>> UpdateTodoAsync(UpdateTodoDTO dto, Guid id)
+    public async Task<DataServiceResponse<string>> TryUpdateTodoAsync(UpdateTodoDTO dto, Guid id)
     {
         var mappedDto = new
         {

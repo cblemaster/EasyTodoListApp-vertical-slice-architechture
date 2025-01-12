@@ -10,9 +10,9 @@ public class TodoListControlModel : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged = delegate { };
 
-    private ReadOnlyObservableCollection<Todo> _todos = new([]);
+    private ReadOnlyObservableCollection<TodoDTO> _todos = new([]);
 
-    public ReadOnlyObservableCollection<Todo> Todos
+    public ReadOnlyObservableCollection<TodoDTO> Todos
     {
         get => _todos;
         set

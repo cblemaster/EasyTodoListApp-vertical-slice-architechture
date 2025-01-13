@@ -3,24 +3,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:controls="clr-namespace:EasyTodoListApp.Desktop.Controls"
-        xmlns:model="clr-namespace:EasyTodoListApp.Desktop"
+        xmlns:pages="clr-namespace:EasyTodoListApp.Desktop.Pages"
         mc:Ignorable="d"
-        Title="EasyTodoList"
+        Title="Easy Todo List"
         Height="675"
         Width="1200">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <TabControl>
-            <TabItem Header="Not complete"/>
-            <TabItem Header="Due today"/>
-            <TabItem Header="Overdue"/>
-            <TabItem Header="Important"/>
-            <TabItem Header="Complete"/>
-        </TabControl>
-        <controls:TodoListControl Grid.Row="1"/>
-    </Grid>
+    <pages:HomePage/>
 </Window>

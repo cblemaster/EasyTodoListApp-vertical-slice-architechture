@@ -1,5 +1,6 @@
 ﻿
-using EasyTodoListApp.Desktop.Controls;
+using EasyTodoListApp.Desktop.Pages;
+using EasyTodoListApp.Desktop.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 
@@ -7,10 +8,22 @@ namespace EasyTodoListApp.Desktop;
 
 public partial class App : Application
 {
+    public IServiceProvider Services { get; }
+
     public App()
     {
-        ServiceCollection serviceCollection = new();
-        serviceCollection.AddSingleton<TodoListControlModel>();
-        serviceCollection.BuildServiceProvider();
+        Services = ConfigureServices();
+        InitializeComponent();
+    }
+    
+    public new static App Current => (App)Application.Current;
+
+    private static ServiceProvider ConfigureServices()
+    {
+        ServiceCollection services = new();
+        return services
+            .AddSingleton<IDataService, HttpDataService>()
+            .AddSingleton<HomePageModel>()
+            .BuildServiceProvider();
     }
 }

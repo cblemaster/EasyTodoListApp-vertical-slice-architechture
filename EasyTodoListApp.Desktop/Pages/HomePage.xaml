@@ -3,6 +3,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
       xmlns:converters="clr-namespace:EasyTodoListApp.Desktop.Converters"
       mc:Ignorable="d" 
       d:DesignHeight="450"
@@ -56,7 +57,12 @@
             <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TabControl>
+        <TabControl SelectedItem="{Binding SelectedTabItem, Mode=TwoWay}">
+            <behaviors:Interaction.Triggers>
+                <behaviors:EventTrigger EventName="SelectionChanged">
+                    <behaviors:InvokeCommandAction Command="{Binding SelectedTabChangedCommand, Mode=OneWay}"/>
+                </behaviors:EventTrigger>
+            </behaviors:Interaction.Triggers>
             <TabItem Header="Not complete"/>
             <TabItem Header="Due today"/>
             <TabItem Header="Overdue"/>

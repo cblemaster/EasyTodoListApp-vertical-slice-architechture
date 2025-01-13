@@ -12,7 +12,6 @@ public partial class HomePage : Page
         if (foundService is HomePageModel pageModel)
         {
             DataContext = pageModel;
-            Task.Run(() => pageModel.LoadDataAsync());
         }
     }
 }

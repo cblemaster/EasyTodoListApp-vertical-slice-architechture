@@ -15,7 +15,7 @@ public partial class App : Application
         Services = ConfigureServices();
         InitializeComponent();
     }
-    
+
     public new static App Current => (App)Application.Current;
 
     private static ServiceProvider ConfigureServices()

@@ -2,8 +2,8 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:converters="clr-namespace:EasyTodoListApp.Desktop.Converters"
       mc:Ignorable="d" 
       d:DesignHeight="450"
@@ -54,8 +54,9 @@
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <TabControl SelectedItem="{Binding SelectedTabItem, Mode=TwoWay}">
             <behaviors:Interaction.Triggers>
@@ -72,6 +73,14 @@
         <ListBox ItemsSource="{Binding Todos, Mode=OneWay}"
                  ItemTemplate="{StaticResource TodoTemplate}"
                  Grid.Row="1"
+                 SelectionMode="Single"
                  HorizontalAlignment="Center"/>
+        <StackPanel Grid.Row="2"
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Center">
+            <Button Content="Create" 
+                    Height="40" 
+                    Width="60" />
+        </StackPanel>
     </Grid>
 </Page>

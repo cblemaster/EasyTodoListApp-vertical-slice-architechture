@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EasyTodoListApp.Desktop.Models;
 using EasyTodoListApp.Desktop.Services;
+using EasyTodoListApp.Desktop.Windows;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 
@@ -41,5 +42,12 @@ public partial class HomePageModel(IDataService dataService) : ObservableObject
             default:
                 break;
         }
+    }
+
+    [RelayCommand]
+    public void Create()
+    {
+        CreateTodoWindow ctw = new();
+        ctw.ShowDialog();
     }
 }

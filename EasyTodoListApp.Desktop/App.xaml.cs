@@ -1,4 +1,5 @@
 ﻿
+using EasyTodoListApp.Desktop.PageModels;
 using EasyTodoListApp.Desktop.Pages;
 using EasyTodoListApp.Desktop.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +25,7 @@ public partial class App : Application
         return services
             .AddSingleton<IDataService, HttpDataService>()
             .AddSingleton<HomePageModel>()
+            .AddSingleton<CreateTodoPageModel>()
             .BuildServiceProvider();
     }
 }

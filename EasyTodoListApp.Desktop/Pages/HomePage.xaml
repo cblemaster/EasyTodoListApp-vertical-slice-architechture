@@ -78,7 +78,8 @@
         <StackPanel Grid.Row="2"
                     Orientation="Horizontal" 
                     HorizontalAlignment="Center">
-            <Button Content="Create" 
+            <Button Command="{Binding CreateCommand, Mode=OneWay}"
+                    Content="Create" 
                     Height="40" 
                     Width="60" />
         </StackPanel>

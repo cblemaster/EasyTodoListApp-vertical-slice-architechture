@@ -9,7 +9,7 @@ public partial class CreateTodoPage : Page
     {
         InitializeComponent();
         object? foundService = App.Current.Services.GetService(typeof(CreateTodoPageModel));
-        if (foundService is HomePageModel pageModel)
+        if (foundService is CreateTodoPageModel pageModel)
         {
             DataContext = pageModel;
         }

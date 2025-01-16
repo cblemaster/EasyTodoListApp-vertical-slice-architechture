@@ -31,7 +31,8 @@
         <TextBox Text="{Binding Description, Mode=TwoWay}"
                  Grid.Column="1"
                  Width="200"
-                 Height="80"/>
+                 Height="80"
+                 MaxLength="100"/>
         <StackPanel Grid.Column="1"
                     Grid.Row="1"
                     Orientation="Horizontal">
@@ -56,7 +57,7 @@
                     HorizontalAlignment="Center">
             <Button Content="Cancel"
                     IsCancel="True"/>
-            <Button Command="{Binding SaveCommand, Mode=OneWay}"
+            <Button Command="{Binding SaveAsyncCommand, Mode=OneWay}"
                     Content="Save"
                     Margin="10,0,0,0"/>
         </StackPanel>

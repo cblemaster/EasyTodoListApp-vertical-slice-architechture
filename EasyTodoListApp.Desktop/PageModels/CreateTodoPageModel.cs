@@ -16,10 +16,7 @@ public partial class CreateTodoPageModel(IDataService dataService) : ObservableO
     public string _description = string.Empty;
 
     [ObservableProperty]
-    public DateTime _dueDate;
-
-    [ObservableProperty]
-    public bool _hasDueDate;
+    public DateTime? _dueDate;
 
     [ObservableProperty]
     public bool _isImportant;
@@ -31,12 +28,8 @@ public partial class CreateTodoPageModel(IDataService dataService) : ObservableO
     public async Task SaveAsync()
     {
         // TODO: Validation
-        CreateTodoDTO dto = new
-            (Description,
-            HasDueDate ? (DueDate == DateTime.MinValue ? null : DateOnly.FromDateTime(DueDate)) : null,
-            IsImportant,
-            IsComplete);
-
+        DateOnly? dueDateForDto = DueDate is null ? null : DateOnly.FromDateTime(DueDate.Value);
+        CreateTodoDTO dto = new(Description, dueDateForDto, IsImportant, IsComplete);
         string message = string.Empty;
 
         try

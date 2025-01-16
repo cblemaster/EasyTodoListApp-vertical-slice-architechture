@@ -33,16 +33,9 @@
                  Width="200"
                  Height="80"
                  MaxLength="100"/>
-        <StackPanel Grid.Column="1"
-                    Grid.Row="1"
-                    Orientation="Horizontal">
-            <DatePicker SelectedDate="{Binding DueDate, Mode=TwoWay}"
-                        IsEnabled="{Binding ElementName=HasDueDateCheckbox, Path=IsChecked, Mode=OneWay}"/>
-            <CheckBox IsChecked="{Binding HasDueDate, Mode=TwoWay}"
-                      x:Name="HasDueDateCheckbox"
-                      Content="has due date?"
-                      Margin="10,0,0,0"/>
-        </StackPanel>
+        <DatePicker SelectedDate="{Binding DueDate, Mode=TwoWay}"
+                    Grid.Column="1"
+                    Grid.Row="1"/>
         <CheckBox IsChecked="{Binding IsImportant, Mode=TwoWay}"
                   Grid.Column="1"
                   Grid.Row="2"
@@ -57,7 +50,7 @@
                     HorizontalAlignment="Center">
             <Button Content="Cancel"
                     IsCancel="True"/>
-            <Button Command="{Binding SaveAsyncCommand, Mode=OneWay}"
+            <Button Command="{Binding SaveCommand, Mode=OneWay}"
                     Content="Save"
                     Margin="10,0,0,0"/>
         </StackPanel>

@@ -1,7 +1,7 @@
 ﻿
 namespace EasyTodoListApp.Desktop.Services.Responses;
 
-public enum ResponseType
+public enum DataServiceResponseType
 {
     NotSet = 0,
     Success = 1,

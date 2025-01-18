@@ -22,12 +22,12 @@ public class HttpDataService : IDataService
         {
             HttpResponseMessage response = await _client.PostAsync("/todos", content);
             response.EnsureSuccessStatusCode();
-            return new DataServiceResponse<string>() { ResponseType = ResponseType.Success, Messgage = "Create todo succeeded." };
+            return new DataServiceResponse<string>() { ResponseType = DataServiceResponseType.Success, Messgage = "Create todo succeeded." };
         }
         catch (HttpRequestException ex)
         {
             string message = $"Create todo failed, the server response was status {ex.StatusCode}";
-            return new DataServiceResponse<string>() { ResponseType = ResponseType.Failure, Messgage = message };
+            return new DataServiceResponse<string>() { ResponseType = DataServiceResponseType.Failure, Messgage = message };
         }
     }
     public async Task<DataServiceResponse<string>> TryDeleteTodoAsync(Guid id)
@@ -36,12 +36,12 @@ public class HttpDataService : IDataService
         {
             HttpResponseMessage response = await _client.DeleteAsync($"todos/{id}");
             response.EnsureSuccessStatusCode();
-            return new DataServiceResponse<string>() { ResponseType = ResponseType.Success, Messgage = "Delete todo succeeded." };
+            return new DataServiceResponse<string>() { ResponseType = DataServiceResponseType.Success, Messgage = "Delete todo succeeded." };
         }
         catch (HttpRequestException ex)
         {
             string message = $"Delete todo failed, the server response was status {ex.StatusCode}";
-            return new DataServiceResponse<string>() { ResponseType = ResponseType.Failure, Messgage = message };
+            return new DataServiceResponse<string>() { ResponseType = DataServiceResponseType.Failure, Messgage = message };
         }
     }
     public async Task<IEnumerable<TodoDTO>> GetAllTodosCompleteAsync()
@@ -76,12 +76,12 @@ public class HttpDataService : IDataService
             HttpResponseMessage response = await _client.GetAsync($"todos/{id}");
             response.EnsureSuccessStatusCode();
             TodoDTO todo = await DeserializeTodoAsync(response.Content);
-            return new DataServiceResponse<TodoDTO>() { ResponseType = ResponseType.Success, Data = todo };
+            return new DataServiceResponse<TodoDTO>() { ResponseType = DataServiceResponseType.Success, Data = todo };
         }
         catch (HttpRequestException ex)
         {
             string message = $"Todo not found, the server response was status {ex.StatusCode}";
-            return new DataServiceResponse<TodoDTO>() { ResponseType = ResponseType.Failure, Messgage = message };
+            return new DataServiceResponse<TodoDTO>() { ResponseType = DataServiceResponseType.Failure, Messgage = message };
             throw;
         }
     }
@@ -91,12 +91,12 @@ public class HttpDataService : IDataService
         {
             HttpResponseMessage response = await _client.PutAsync($"/todos/{id}/completion", null);
             response.EnsureSuccessStatusCode();
-            return new DataServiceResponse<string>() { ResponseType = ResponseType.Success, Messgage = "Update todo succeeded." };
+            return new DataServiceResponse<string>() { ResponseType = DataServiceResponseType.Success, Messgage = "Update todo succeeded." };
         }
         catch (HttpRequestException ex)
         {
             string message = $"Update todo failed, the server response was status {ex.StatusCode}";
-            return new DataServiceResponse<string>() { ResponseType = ResponseType.Failure, Messgage = message };
+            return new DataServiceResponse<string>() { ResponseType = DataServiceResponseType.Failure, Messgage = message };
         }
     }
     public async Task<DataServiceResponse<string>> TryToggleTodoImportanceAsync(Guid id)
@@ -105,12 +105,12 @@ public class HttpDataService : IDataService
         {
             HttpResponseMessage response = await _client.PutAsync($"/todos/{id}/importance", null);
             response.EnsureSuccessStatusCode();
-            return new DataServiceResponse<string>() { ResponseType = ResponseType.Success, Messgage = "Update todo succeeded." };
+            return new DataServiceResponse<string>() { ResponseType = DataServiceResponseType.Success, Messgage = "Update todo succeeded." };
         }
         catch (HttpRequestException ex)
         {
             string message = $"Update todo failed, the server response was status {ex.StatusCode}";
-            return new DataServiceResponse<string>() { ResponseType = ResponseType.Failure, Messgage = message };
+            return new DataServiceResponse<string>() { ResponseType = DataServiceResponseType.Failure, Messgage = message };
         }
     }
     public async Task<DataServiceResponse<string>> TryUpdateTodoAsync(UpdateTodoDTO dto, Guid id)
@@ -138,12 +138,12 @@ public class HttpDataService : IDataService
         {
             HttpResponseMessage response = await _client.PutAsync($"/todos/{id}", content);
             response.EnsureSuccessStatusCode();
-            return new DataServiceResponse<string>() { ResponseType = ResponseType.Success, Messgage = "Update todo succeeded." };
+            return new DataServiceResponse<string>() { ResponseType = DataServiceResponseType.Success, Messgage = "Update todo succeeded." };
         }
         catch (HttpRequestException ex)
         {
             string message = $"Update todo failed, the server response was status {ex.StatusCode}";
-            return new DataServiceResponse<string>() { ResponseType = ResponseType.Failure, Messgage = message };
+            return new DataServiceResponse<string>() { ResponseType = DataServiceResponseType.Failure, Messgage = message };
         }
     }
 

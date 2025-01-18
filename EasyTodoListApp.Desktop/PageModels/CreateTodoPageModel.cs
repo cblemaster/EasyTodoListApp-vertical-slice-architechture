@@ -47,7 +47,7 @@ public partial class CreateTodoPageModel(IDataService dataService) : ObservableO
             DataServiceResponse<string> createResponse = await _dataService.TryCreateTodoAsync(dto);
             switch (createResponse.ResponseType)
             {
-                case ResponseType.Success:
+                case DataServiceResponseType.Success:
                     message = createResponse.Messgage;
                     CreateTodoMessages.ShowCreateTodoSucceededMessage(message);
                     System.Windows.WindowCollection a = App.Current.Windows;    // TODO: I dont like doing UI stuff like this from the page model
@@ -55,7 +55,7 @@ public partial class CreateTodoPageModel(IDataService dataService) : ObservableO
                     {
                         if (w is Window window)
                         {
-                            if (window.GetType() == typeof(CreateTodoWindow))
+                            if (window.GetType().Equals(typeof(CreateTodoWindow)))
                             {
                                 window.Close();
                                 break;
@@ -63,11 +63,11 @@ public partial class CreateTodoPageModel(IDataService dataService) : ObservableO
                         }
                     }
                     return;
-                case ResponseType.Failure:
+                case DataServiceResponseType.Failure:
                     message = createResponse.Messgage;
                     CreateTodoMessages.ShowCreateTodoFailedMessage(message);  // TODO: These messages arent very elegant and involve too much UI work in the page model
                     return;
-                case ResponseType.NotSet:
+                case DataServiceResponseType.NotSet:
                 default:
                     break;
             }

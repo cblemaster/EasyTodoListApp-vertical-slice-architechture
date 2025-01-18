@@ -25,7 +25,7 @@ public partial class App : Application
         return services
             .AddSingleton<IDataService, HttpDataService>()
             .AddSingleton<HomePageModel>()
-            .AddSingleton<CreateTodoPageModel>()
+            .AddTransient<CreateTodoPageModel>()
             .BuildServiceProvider();
     }
 }

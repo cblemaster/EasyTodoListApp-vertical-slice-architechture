@@ -31,20 +31,7 @@ public partial class CreateTodoPageModel(IDataService dataService) : ObservableO
     [RelayCommand]
     public async Task SaveAsync()
     {
-        string message = string.Empty;
-
-        if (string.IsNullOrEmpty(Description))
-        {
-            message = "Description is required!";
-        }
-        else if (Regex.Match(Description, @"^\s +$").Success)
-        {
-            message = "Description cannot be only whitespace characters!";
-        }
-        else if (Description.Length > 100)
-        {
-            message = "Description must be 100 or fewer characters!";
-        }
+        string message = GetValidationMessageOrEmptyString();
 
         if (!message.Equals(string.Empty))
         {
@@ -89,6 +76,26 @@ public partial class CreateTodoPageModel(IDataService dataService) : ObservableO
         {
             message = $"Create todo failed, the server response was status {ex.StatusCode}";
             CreateTodoMessages.ShowCreateTodoErrorMessage(message);
+        }
+
+        string GetValidationMessageOrEmptyString()
+        {
+            string message = string.Empty;
+            
+            if (string.IsNullOrEmpty(Description))
+            {
+                message = "Description is required!";
+            }
+            else if (Regex.Match(Description, @"^\s +$").Success)
+            {
+                message = "Description cannot be only whitespace characters!";
+            }
+            else if (Description.Length > 100)
+            {
+                message = "Description must be 100 or fewer characters!";
+            }
+
+            return message;
         }
     }
 }

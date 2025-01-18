@@ -9,7 +9,6 @@ using EasyTodoListApp.Desktop.Windows;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace EasyTodoListApp.Desktop.PageModels;
 
@@ -55,7 +54,7 @@ public partial class CreateTodoPageModel(IDataService dataService) : ObservableO
 
         DateOnly? dueDateForDto = DueDate is null ? null : DateOnly.FromDateTime(DueDate.Value);
         CreateTodoDTO dto = new(Description, dueDateForDto, IsImportant, IsComplete);
-        
+
         try
         {
             DataServiceResponse<string> createResponse = await _dataService.TryCreateTodoAsync(dto);

@@ -40,7 +40,7 @@ public partial class CreateTodoPageModel(IDataService dataService) : ObservableO
         }
 
         DateOnly? dueDateForDto = DueDate is null ? null : DateOnly.FromDateTime(DueDate.Value);
-        CreateTodoDTO dto = new(Description, dueDateForDto, IsImportant, IsComplete);
+        CreateTodoDTO dto = new(Description, dueDateForDto, IsImportant, IsComplete);  // TODO: We could just databind the xaml input controls to properties on the dto rather than instantiating the dto here
 
         try
         {
@@ -50,7 +50,7 @@ public partial class CreateTodoPageModel(IDataService dataService) : ObservableO
                 case ResponseType.Success:
                     message = createResponse.Messgage;
                     CreateTodoMessages.ShowCreateTodoSucceededMessage(message);
-                    System.Windows.WindowCollection a = App.Current.Windows;
+                    System.Windows.WindowCollection a = App.Current.Windows;    // TODO: I dont like doing UI stuff like this from the page model
                     foreach (object? w in a)
                     {
                         if (w is Window window)
@@ -65,7 +65,7 @@ public partial class CreateTodoPageModel(IDataService dataService) : ObservableO
                     return;
                 case ResponseType.Failure:
                     message = createResponse.Messgage;
-                    CreateTodoMessages.ShowCreateTodoFailedMessage(message);
+                    CreateTodoMessages.ShowCreateTodoFailedMessage(message);  // TODO: These messages arent very elegant and involve too much UI work in the page model
                     return;
                 case ResponseType.NotSet:
                 default:

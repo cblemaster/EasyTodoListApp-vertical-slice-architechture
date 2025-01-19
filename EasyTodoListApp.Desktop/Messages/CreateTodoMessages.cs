@@ -23,7 +23,7 @@ public static class CreateTodoMessages
     public static MessageBoxResult ShowCreateTodoErrorMessage(string error)
     {
         string message = $"Create todo failed with this error: {error}";
-        MessageBoxImage icon = MessageBoxImage.Information;
+        MessageBoxImage icon = MessageBoxImage.Error;
         return MessageBox.Show(message, CAPTION, _button, icon);
     }
 

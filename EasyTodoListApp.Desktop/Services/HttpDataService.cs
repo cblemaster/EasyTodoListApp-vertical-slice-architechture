@@ -168,7 +168,7 @@ public class HttpDataService : IDataService
         }
         return todos.AsEnumerable();
     }
-    
+
     // TODO: Move json processing into its own class(es)
     private static TodoDTO CreateTodoFromJsonElement(JsonElement element)
     {

@@ -47,7 +47,9 @@
                                TextWrapping="Wrap"/>
                     <StackPanel Orientation="Horizontal">
                         <Button Content="update"/>
-                        <Button IsEnabled="{Binding IsImportant, Mode=OneWay, Converter={StaticResource BoolToInverseConverter}}"
+                        <Button Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.DeleteCommand, Mode=OneWay}"
+                                CommandParameter="{Binding Id, Mode=OneWay}"
+                                IsEnabled="{Binding IsImportant, Mode=OneWay, Converter={StaticResource BoolToInverseConverter}}"
                                 Content="delete"/>
                     </StackPanel>
                 </StackPanel>
@@ -76,7 +78,7 @@
                  ItemTemplate="{StaticResource TodoTemplate}"
                  Grid.Row="1"
                  SelectionMode="Single"
-                 HorizontalAlignment="Center"/>
+                 HorizontalAlignment="Stretch"/>
         <StackPanel Grid.Row="2"
                     Orientation="Horizontal" 
                     HorizontalAlignment="Center">

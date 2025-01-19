@@ -24,6 +24,7 @@ public partial class App : Application
         ServiceCollection services = new();
         return services
             .AddSingleton<IDataService, HttpDataService>()
+            .AddSingleton<IUIHandlers, UIHandlers>()
             .AddSingleton<HomePageModel>()
             .AddTransient<CreateTodoPageModel>()
             .BuildServiceProvider();

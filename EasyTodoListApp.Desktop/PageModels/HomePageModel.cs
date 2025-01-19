@@ -1,6 +1,7 @@
 ﻿
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using EasyTodoListApp.Desktop.Handlers;
 using EasyTodoListApp.Desktop.Models;
 using EasyTodoListApp.Desktop.Services;
 using EasyTodoListApp.Desktop.Windows;
@@ -9,9 +10,10 @@ using System.Windows.Controls;
 
 namespace EasyTodoListApp.Desktop.Pages;
 
-public partial class HomePageModel(IDataService dataService) : ObservableObject
+public partial class HomePageModel(IDataService dataService, IUIHandlers uiHandlers) : ObservableObject
 {
     private readonly IDataService _dataService = dataService;
+    private readonly IUIHandlers _uiHandlers = uiHandlers;
 
     [ObservableProperty]
     public ReadOnlyCollection<TodoDTO> _todos = new([]);
@@ -39,8 +41,6 @@ public partial class HomePageModel(IDataService dataService) : ObservableObject
             case "Complete":
                 Todos = (await _dataService.GetAllTodosCompleteAsync()).ToList().AsReadOnly();
                 break;
-            default:
-                break;
         }
     }
 
@@ -50,4 +50,7 @@ public partial class HomePageModel(IDataService dataService) : ObservableObject
         CreateTodoWindow ctw = new();
         ctw.ShowDialog();
     }
+
+    [RelayCommand]
+    public async Task DeleteAsync(Guid id) => await _uiHandlers.TryHandleDeleteTodoAsync(id);
 }

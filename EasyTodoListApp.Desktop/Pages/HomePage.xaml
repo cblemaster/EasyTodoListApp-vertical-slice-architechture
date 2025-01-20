@@ -46,7 +46,9 @@
                     <TextBlock Text="{Binding UpdateDate, Mode=OneWay, Converter={StaticResource NullableDateOnlyToStringConverter}, StringFormat=update date: {0}}"
                                TextWrapping="Wrap"/>
                     <StackPanel Orientation="Horizontal">
-                        <Button Content="update"/>
+                        <Button Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.UpdateCommand, Mode=OneWay}"
+                                CommandParameter="{Binding Id, Mode=OneWay}"
+                                Content="update"/>
                         <Button Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.DeleteCommand, Mode=OneWay}"
                                 CommandParameter="{Binding Id, Mode=OneWay}"
                                 IsEnabled="{Binding IsImportant, Mode=OneWay, Converter={StaticResource BoolToInverseConverter}}"

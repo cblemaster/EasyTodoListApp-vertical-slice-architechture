@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EasyTodoListApp.Desktop.Handlers;
 using EasyTodoListApp.Desktop.Models;
+using EasyTodoListApp.Desktop.PageModels;
 using EasyTodoListApp.Desktop.Services;
 using EasyTodoListApp.Desktop.Windows;
 using System.Collections.ObjectModel;
@@ -53,4 +54,16 @@ public partial class HomePageModel(IDataService dataService, IUIHandlers uiHandl
 
     [RelayCommand]
     public async Task DeleteAsync(Guid id) => await _uiHandlers.TryHandleDeleteTodoAsync(id);
+
+    [RelayCommand]
+    public async Task Update(Guid id)
+    {
+        UpdateTodoWindow utw = new();
+        if (utw.Content is UpdateTodoPage updatePage)
+        {
+            UpdateTodoPageModel pageModel = (UpdateTodoPageModel)updatePage.DataContext;
+            await pageModel.LoadTodoAsync(id);
+            utw.ShowDialog();
+        }
+    }
 }

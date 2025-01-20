@@ -59,26 +59,6 @@ public class UIHandlers(IDataService dataService) : IUIHandlers
             message = $"Create todo failed, the server response was status {ex.StatusCode}";
             CreateTodoMessages.ShowCreateTodoErrorMessage(message);
         }
-
-        string GetValidationMessageOrEmptyString()
-        {
-            string message = string.Empty;
-
-            if (string.IsNullOrEmpty(description))
-            {
-                message = "Description is required!";
-            }
-            else if (Regex.Match(description, @"^\s +$").Success)
-            {
-                message = "Description cannot be only whitespace characters!";
-            }
-            else if (description.Length > 100)
-            {
-                message = "Description must be 100 or fewer characters!";
-            }
-
-            return message;
-        }
     }
 
     public async Task TryHandleDeleteTodoAsync(Guid id)
@@ -125,5 +105,28 @@ public class UIHandlers(IDataService dataService) : IUIHandlers
             string message = $"Delete todo failed, the server response was status {ex.StatusCode}";
             DeleteTodoMessages.ShowDeleteTodoErrorMessage(message);
         }
+    }
+    private (bool IsValid, string error) ValidateDescription(string description)
+    {
+        bool isValid = true;
+        string message = string.Empty;
+
+        if (string.IsNullOrEmpty(description))
+        {
+            isValid = false;
+            message = "Description is required!";
+        }
+        else if (Regex.Match(description, @"^\s +$").Success)
+        {
+            isValid = false;
+            message = "Description cannot be only whitespace characters!";
+        }
+        else if (description.Length > 100)
+        {
+            isValid = false;
+            message = "Description must be 100 or fewer characters!";
+        }
+
+        return (isValid, message);
     }
 }

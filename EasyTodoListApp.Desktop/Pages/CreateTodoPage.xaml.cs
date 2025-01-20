@@ -3,6 +3,7 @@ using EasyTodoListApp.Desktop.PageModels;
 using System.Windows.Controls;
 
 namespace EasyTodoListApp.Desktop.Pages;
+
 public partial class CreateTodoPage : Page
 {
     public CreateTodoPage()

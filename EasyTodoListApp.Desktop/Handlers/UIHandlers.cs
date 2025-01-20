@@ -16,16 +16,17 @@ public class UIHandlers(IDataService dataService) : IUIHandlers
 
     public async Task TryHandleCreateTodoAsync(string description, DateTime? dueDate, bool isImportant, bool isComplete)
     {
-        string message = GetValidationMessageOrEmptyString();
+        (bool IsValid, string error) = ValidateDescription(description);
 
-        if (!message.Equals(string.Empty))
+        if (!IsValid)
         {
-            CreateTodoMessages.ShowCreateTodoValidationErrorMessage(message);
+            CreateTodoMessages.ShowCreateTodoValidationErrorMessage(error);
             return;
         }
 
         DateOnly? dueDateForDto = dueDate is null ? null : DateOnly.FromDateTime(dueDate.Value);
         CreateTodoDTO dto = new(description, dueDateForDto, isImportant, isComplete);  // TODO: We could just databind the xaml input controls to properties on the dto rather than instantiating the dto here
+        string message = string.Empty;
 
         try
         {

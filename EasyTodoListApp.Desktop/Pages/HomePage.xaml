@@ -33,7 +33,7 @@
                            Margin="10,10,0,0"/>
                 <StackPanel Grid.Row="1"
                             Margin="10,10,0,0">
-                    <TextBlock Text="{Binding DueDate, Mode=OneWay,  Converter={StaticResource NullableDateOnlyToStringConverter}, StringFormat=due date: {0}}"
+                    <TextBlock Text="{Binding DueDate, Mode=OneWay, Converter={StaticResource NullableDateOnlyToStringConverter}, StringFormat=due date: {0}}"
                                TextWrapping="Wrap"/>
                     <TextBlock Text="{Binding IsImportant, Mode=OneWay, Converter={StaticResource BoolToYesNoConverter}, StringFormat=important: {0}}"/>
                     <TextBlock Text="{Binding IsComplete, Mode=OneWay, Converter={StaticResource BoolToYesNoConverter}, StringFormat=complete: {0}}"/>

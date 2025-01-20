@@ -1,7 +1,5 @@
 ﻿
 using EasyTodoListApp.API.Todos.UseCases.CreateTodo;
-using EasyTodoListApp.API.Todos.UseCases.ToggleTodoCompletion;
-using EasyTodoListApp.API.Todos.UseCases.ToggleTodoImportance;
 using EasyTodoListApp.API.Todos.UseCases.UpdateTodo;
 using EasyTodoListApp.Domain;
 using EasyTodoListApp.Infrastructure.DatabaseContext;
@@ -22,20 +20,8 @@ public class TodoRepository(EasyTodoListAppDbContext context) : ITodoRepository
         Todo entity = (await GetTodoByIdOrNullAsync(command.Id))!;  // handler has verified that the entity exists
         entity.SetDescription(command.Description);
         entity.SetDueDate(command.DueDate);
-        entity.SetUpdateDate();
-        await _context.SaveChangesAsync();
-    }
-    public async Task ToggleTodoImportanceAsync(ToggleTodoImportanceCommand command)
-    {
-        Todo entity = (await GetTodoByIdOrNullAsync(command.Id))!;  // handler has verified that the entity exists
-        entity.SetIsImportant(!entity.IsImportant);
-        entity.SetUpdateDate();
-        await _context.SaveChangesAsync();
-    }
-    public async Task ToggleTodoCompletionAsync(ToggleTodoCompletionCommand command)
-    {
-        Todo entity = (await GetTodoByIdOrNullAsync(command.Id))!;  // handler has verified that the entity exists
-        entity.SetIsComplete(!entity.IsComplete);
+        entity.SetIsImportant(command.IsImportant);
+        entity.SetIsComplete(command.IsComplete);
         entity.SetUpdateDate();
         await _context.SaveChangesAsync();
     }

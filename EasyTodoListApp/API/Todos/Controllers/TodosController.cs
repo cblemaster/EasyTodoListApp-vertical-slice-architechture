@@ -7,8 +7,6 @@ using EasyTodoListApp.API.Todos.UseCases.GetAllTodosImportant;
 using EasyTodoListApp.API.Todos.UseCases.GetAllTodosNotComplete;
 using EasyTodoListApp.API.Todos.UseCases.GetAllTodosOverdue;
 using EasyTodoListApp.API.Todos.UseCases.GetTodoById;
-using EasyTodoListApp.API.Todos.UseCases.ToggleTodoCompletion;
-using EasyTodoListApp.API.Todos.UseCases.ToggleTodoImportance;
 using EasyTodoListApp.API.Todos.UseCases.UpdateTodo;
 using EasyTodoListApp.API.Todos.Validation;
 using EasyTodoListApp.Domain;
@@ -57,24 +55,7 @@ namespace EasyTodoListApp.API.Todos.Controllers
                     : response.Result.Contains("success") ? NoContent() : BadRequest(response.Result);
             }
         }
-        [HttpPut("{id:guid}/importance")]
-        public async Task<IActionResult> ToggleTodoImportanceAsync(Guid id)
-        {
-            ToggleTodoImportanceCommand command = new(Identifier<Todo>.Create(id));
-            ToggleTodoImportanceResponse response = await _mediator.Send(command);
-            return response.Result.Contains("not found")
-                ? NotFound()
-                : response.Result.Contains("success") ? NoContent() : BadRequest(response.Result);
-        }
-        [HttpPut("{id:guid}/completion")]
-        public async Task<IActionResult> ToggleTodoCompletionAsync(Guid id)
-        {
-            ToggleTodoCompletionCommand command = new(Identifier<Todo>.Create(id));
-            ToggleTodoCompletionResponse response = await _mediator.Send(command);
-            return response.Result.Contains("not found")
-                ? NotFound()
-                : response.Result.Contains("success") ? NoContent() : BadRequest(response.Result);
-        }
+
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteTodoAsync(Guid id)
         {

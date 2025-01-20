@@ -14,6 +14,6 @@ public class CreateTodoHandler(ITodoRepository todoRepository) : IRequestHandler
         Todo createTodo = Todo.Create(request.Description, request.DueDate, request.IsImportant, request.IsComplete);
         request = request with { NewTodo = createTodo };
         await _todoRepository.CreateTodoAsync(request);
-        return new CreateTodoResponse(createTodo, $"/todos/{ createTodo.Identifier.Value }");
+        return new CreateTodoResponse(createTodo, $"/todos/{createTodo.Identifier.Value}");
     }
 }

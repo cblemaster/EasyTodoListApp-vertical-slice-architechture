@@ -8,15 +8,15 @@ public class GetAllTodosNotCompleteHandler(ITodoRepository todoRepository) : IRe
 {
     private readonly ITodoRepository _todoRepository = todoRepository;
 
-    public async Task<GetAllTodosNotCompleteResponse> Handle(GetAllTodosNotCompleteQuery request, CancellationToken cancellationToken)
-    {
-        IReadOnlyCollection<Todo> todos =
+    public async Task<GetAllTodosNotCompleteResponse> Handle(GetAllTodosNotCompleteQuery request, CancellationToken cancellationToken) =>
+        await Task.Run(() =>
+        {
+            IReadOnlyCollection<Todo> todos =
             _todoRepository
-                .GetAllTodosNotComplete()
-                .OrderByDescending(d => d.DueDate)
-                .ThenBy(d => d.Description.Value, StringComparer.CurrentCultureIgnoreCase)
-                .ToList()
-                .AsReadOnly();
-        return new GetAllTodosNotCompleteResponse(todos);
-    }
+            .GetAllTodosNotComplete()
+            .OrderByDescending(d => d.DueDate)
+            .ThenBy(d => d.Description.Value, StringComparer.CurrentCultureIgnoreCase)
+            .ToList().AsReadOnly();
+            return new GetAllTodosNotCompleteResponse(todos);
+        });
 }

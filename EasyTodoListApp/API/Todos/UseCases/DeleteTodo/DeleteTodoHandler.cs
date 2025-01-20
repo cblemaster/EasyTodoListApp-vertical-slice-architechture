@@ -14,7 +14,7 @@ public class DeleteTodoHandler(ITodoRepository todoRepository) : IRequestHandler
         Todo? deleteTodo = await _todoRepository.GetTodoByIdOrNullAsync(request.Id);
         if (deleteTodo is null)
         {
-            return new DeleteTodoResponse($"Todo with id { request.Id.Value } not found!");
+            return new DeleteTodoResponse($"Todo with id {request.Id.Value} not found!");
         }
         else if (deleteTodo.IsImportant && !deleteTodo.IsComplete)
         {

@@ -9,15 +9,16 @@ public class GetAllTodosCompleteHandler(ITodoRepository todoRepository) : IReque
 {
     private readonly ITodoRepository _todoRepository = todoRepository;
 
-    public async Task<GetAllTodosCompleteResponse> Handle(GetAllTodosCompleteQuery request, CancellationToken cancellationToken)
-    {
-        IReadOnlyCollection<Todo> todos =
-            _todoRepository
+    public async Task<GetAllTodosCompleteResponse> Handle(GetAllTodosCompleteQuery request, CancellationToken cancellationToken) =>
+        await Task.Run(() =>
+        {
+            IReadOnlyCollection<Todo> todos =
+                _todoRepository
                 .GetAllTodosComplete()
                 .OrderByDescending(d => d.DueDate)
                 .ThenBy(d => d.Description.Value, StringComparer.CurrentCultureIgnoreCase)
                 .ToList()
                 .AsReadOnly();
-        return new GetAllTodosCompleteResponse(todos);
-    }
+            return new GetAllTodosCompleteResponse(todos);
+        });
 }

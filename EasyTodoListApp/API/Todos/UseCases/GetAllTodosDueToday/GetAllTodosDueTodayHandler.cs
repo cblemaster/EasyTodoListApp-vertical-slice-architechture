@@ -9,16 +9,17 @@ public class GetAllTodosDueTodayHandler(ITodoRepository todoRepository) : IReque
 {
     private readonly ITodoRepository _todoRepository = todoRepository;
 
-    public async Task<GetAllTodosDueTodayResponse> Handle(GetAllTodosDueTodayQuery request, CancellationToken cancellationToken)
-    {
-        IReadOnlyCollection<Todo> todos =
-            _todoRepository
+    public async Task<GetAllTodosDueTodayResponse> Handle(GetAllTodosDueTodayQuery request, CancellationToken cancellationToken) =>
+        await Task.Run(() =>
+        {
+            IReadOnlyCollection<Todo> todos =
+                _todoRepository
                 .GetAllTodosNotComplete()
                 .Where(t => t.DueDate.HasValue && t.DueDate.Value == DateOnly.FromDateTime(DateTime.Today))
                 .OrderByDescending(d => d.DueDate)
                 .ThenBy(d => d.Description.Value, StringComparer.CurrentCultureIgnoreCase)
                 .ToList()
                 .AsReadOnly();
-        return new GetAllTodosDueTodayResponse(todos);
-    }
+            return new GetAllTodosDueTodayResponse(todos);
+        });
 }

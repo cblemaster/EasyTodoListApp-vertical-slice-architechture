@@ -85,34 +85,6 @@ public class HttpDataService : IDataService
             throw;
         }
     }
-    public async Task<DataServiceResponse<string>> TryToggleTodoCompletionAsync(Guid id)
-    {
-        try
-        {
-            HttpResponseMessage response = await _client.PutAsync($"/todos/{id}/completion", null);
-            response.EnsureSuccessStatusCode();
-            return new DataServiceResponse<string>() { ResponseType = DataServiceResponseType.Success, Messgage = "Update todo succeeded." };
-        }
-        catch (HttpRequestException ex)
-        {
-            string message = $"Update todo failed, the server response was status {ex.StatusCode}";
-            return new DataServiceResponse<string>() { ResponseType = DataServiceResponseType.Failure, Messgage = message };
-        }
-    }
-    public async Task<DataServiceResponse<string>> TryToggleTodoImportanceAsync(Guid id)
-    {
-        try
-        {
-            HttpResponseMessage response = await _client.PutAsync($"/todos/{id}/importance", null);
-            response.EnsureSuccessStatusCode();
-            return new DataServiceResponse<string>() { ResponseType = DataServiceResponseType.Success, Messgage = "Update todo succeeded." };
-        }
-        catch (HttpRequestException ex)
-        {
-            string message = $"Update todo failed, the server response was status {ex.StatusCode}";
-            return new DataServiceResponse<string>() { ResponseType = DataServiceResponseType.Failure, Messgage = message };
-        }
-    }
     public async Task<DataServiceResponse<string>> TryUpdateTodoAsync(UpdateTodoDTO dto, Guid id)
     {
         var mappedDto = new
@@ -125,6 +97,8 @@ public class HttpDataService : IDataService
                 MaxLength = 100
             },
             DueDate = dto.DueDate,
+            IsImportant = dto.IsImportant,
+            IsComplete = dto.IsComplete,
             Identifier = new
             {
                 Value = id

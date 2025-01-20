@@ -14,7 +14,5 @@ public interface IDataService
     Task<IEnumerable<TodoDTO>> GetAllTodosNotCompleteAsync();
     Task<IEnumerable<TodoDTO>> GetAllTodosOverdueAsync();
     Task<DataServiceResponse<TodoDTO>> TryGetTodoByIdOrThrowHttpExAsync(Guid id);
-    Task<DataServiceResponse<string>> TryToggleTodoCompletionAsync(Guid id);
-    Task<DataServiceResponse<string>> TryToggleTodoImportanceAsync(Guid id);
     Task<DataServiceResponse<string>> TryUpdateTodoAsync(UpdateTodoDTO dto, Guid id);
 }

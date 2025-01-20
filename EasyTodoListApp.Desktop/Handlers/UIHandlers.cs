@@ -106,6 +106,69 @@ public class UIHandlers(IDataService dataService) : IUIHandlers
             DeleteTodoMessages.ShowDeleteTodoErrorMessage(message);
         }
     }
+
+    public async Task TryHandleUpdateTodoAsync(string description, DateTime? dueDate, bool isImportant, bool isComplete, Guid id)
+    {
+        DataServiceResponse<TodoDTO> findTodoResponse = await _dataService.TryGetTodoByIdOrThrowHttpExAsync(id);
+        if (findTodoResponse.Data is null || findTodoResponse.Data is not TodoDTO todo)
+        {
+            UpdateTodoMessages.ShowTodoToUpdateNotFoundMessage();
+            return;
+        }
+        else
+        {
+            DateOnly? dueDateForDto = dueDate is null ? null : DateOnly.FromDateTime(dueDate.Value);
+            UpdateTodoDTO dto = new(description, dueDateForDto, isImportant, isComplete, id);  // TODO: We could just databind the xaml input controls to properties on the dto rather than instantiating the dto here
+            if (todo.IsComplete)
+            {
+                dto = dto with { Description = todo.Description, DueDate = todo.DueDate, IsImportant = todo.IsImportant };
+            }
+
+            (bool IsValid, string error) = ValidateDescription(dto.Description);
+
+            if (!IsValid)
+            {
+                UpdateTodoMessages.ShowUpdateTodoValidationErrorMessage(error);
+                return;
+            }
+
+            string message = string.Empty;
+
+            try
+            {
+                DataServiceResponse<string> updateResponse = await _dataService.TryUpdateTodoAsync(dto, id);
+                switch (updateResponse.ResponseType)
+                {
+                    case DataServiceResponseType.Success:
+                        message = updateResponse.Messgage;
+                        UpdateTodoMessages.ShowUpdateTodoSucceededMessage(message);
+                        System.Windows.WindowCollection a = App.Current.Windows;    // TODO: I dont like doing UI stuff like this from the page model
+                        foreach (object? w in a)
+                        {
+                            if (w is Window window)
+                            {
+                                if (window.GetType().Equals(typeof(UpdateTodoWindow)))
+                                {
+                                    window.Close();
+                                    break;
+                                }
+                            }
+                        }
+                        return;
+                    case DataServiceResponseType.Failure:
+                        message = updateResponse.Messgage;
+                        UpdateTodoMessages.ShowUpdateTodoFailedMessage(message);  // TODO: These messages arent very elegant and involve too much UI work in the page model
+                        return;
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                message = $"Update todo failed, the server response was status {ex.StatusCode}";
+                UpdateTodoMessages.ShowUpdateTodoErrorMessage(message);
+            }
+        }
+    }
+
     private (bool IsValid, string error) ValidateDescription(string description)
     {
         bool isValid = true;

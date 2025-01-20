@@ -28,6 +28,7 @@ public partial class App : Application
             .AddSingleton<IUIHandlers, UIHandlers>()
             .AddSingleton<HomePageModel>()
             .AddTransient<CreateTodoPageModel>()
+            .AddTransient<UpdateTodoPageModel>()
             .BuildServiceProvider();
     }
 }

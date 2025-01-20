@@ -24,7 +24,7 @@ public static class ValidateDescription
         else if (description.Length > Todo.MAX_LENGTH_FOR_DESCRIPTION)
         {
             isValid = false;
-            errorMessage = $"Description must be { Todo.MAX_LENGTH_FOR_DESCRIPTION } or fewer characters!";
+            errorMessage = $"Description must be {Todo.MAX_LENGTH_FOR_DESCRIPTION} or fewer characters!";
         }
 
         return (isValid, errorMessage);

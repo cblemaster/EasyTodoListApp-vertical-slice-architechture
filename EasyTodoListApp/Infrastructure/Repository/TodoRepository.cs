@@ -17,7 +17,7 @@ public class TodoRepository(EasyTodoListAppDbContext context) : ITodoRepository
     }
     public async Task UpdateTodoAsync(UpdateTodoCommand command)
     {
-        Todo entity = (await GetTodoByIdOrNullAsync(command.Id))!;  // handler has verified that the entity exists
+        Todo entity = (await GetTodoByIdOrNullAsync(Identifier<Todo>.Create(command.Id)))!;  // handler has verified that the entity exists
         entity.SetDescription(command.Description);
         entity.SetDueDate(command.DueDate);
         entity.SetIsImportant(command.IsImportant);

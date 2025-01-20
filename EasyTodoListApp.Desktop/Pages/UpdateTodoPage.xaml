@@ -31,17 +31,11 @@
         <Label Grid.Row="1"
                Content="due date"/>
         <TextBox Text="{Binding Description, Mode=TwoWay}"
-                 IsEnabled="{Binding IsImportant, Mode=OneWay, Converter={StaticResource BoolToInverseConverter}}"
-                 Grid.Column="1"
-                 Width="200"
-                 Height="80"
-                 MaxLength="100"/>
+                 Grid.Column="1"/>
         <DatePicker SelectedDate="{Binding DueDate, Mode=TwoWay}"
-                    IsEnabled="{Binding IsImportant, Mode=OneWay, Converter={StaticResource BoolToInverseConverter}}"
                     Grid.Column="1"
                     Grid.Row="1"/>
         <CheckBox IsChecked="{Binding IsImportant, Mode=TwoWay}"
-                  IsEnabled="{Binding IsImportant, Mode=OneWay, Converter={StaticResource BoolToInverseConverter}}"
                   Grid.Column="1"
                   Grid.Row="2"
                   Content="important?" />

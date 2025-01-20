@@ -87,30 +87,12 @@ public class HttpDataService : IDataService
     }
     public async Task<DataServiceResponse<string>> TryUpdateTodoAsync(UpdateTodoDTO dto, Guid id)
     {
-        var mappedDto = new
-        {
-            Description = new
-            {
-                Value = dto.Description,
-                IsRequired = true,
-                IsAllowAllWhitespace = false,
-                MaxLength = 100
-            },
-            DueDate = dto.DueDate,
-            IsImportant = dto.IsImportant,
-            IsComplete = dto.IsComplete,
-            Identifier = new
-            {
-                Value = id
-            }
-        };
-
-        StringContent content = new(JsonSerializer.Serialize(mappedDto));
+        StringContent content = new(JsonSerializer.Serialize(dto));
         content.Headers.ContentType = new("application/json");
 
         try
         {
-            HttpResponseMessage response = await _client.PutAsync($"/todos/{id}", content);
+            HttpResponseMessage response = await _client.PutAsync($"todos/{id}", content);
             response.EnsureSuccessStatusCode();
             return new DataServiceResponse<string>() { ResponseType = DataServiceResponseType.Success, Messgage = "Update todo succeeded." };
         }

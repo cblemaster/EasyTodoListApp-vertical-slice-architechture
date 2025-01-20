@@ -41,13 +41,12 @@
                 <StackPanel Grid.Column="1"
                             Grid.Row="1"
                             Margin="10,10,0,0">
-                    <TextBlock Text="{Binding CreateDate, Mode=OneWay, StringFormat=create date: {0:D}}"
-                               TextWrapping="Wrap"/>
-                    <TextBlock Text="{Binding UpdateDate, Mode=OneWay, Converter={StaticResource NullableDateOnlyToStringConverter}, StringFormat=update date: {0}}"
-                               TextWrapping="Wrap"/>
+                    <TextBlock Text="{Binding CreateDate, Mode=OneWay, StringFormat=create date: {0:D}}"/>
+                    <TextBlock Text="{Binding UpdateDate, Mode=OneWay, Converter={StaticResource NullableDateTimeToStringConverter}, StringFormat=update date: {0}}"/>
                     <StackPanel Orientation="Horizontal">
                         <Button Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.UpdateCommand, Mode=OneWay}"
                                 CommandParameter="{Binding Id, Mode=OneWay}"
+                                IsEnabled="{Binding IsComplete, Mode=OneWay, Converter={StaticResource BoolToInverseConverter}}"
                                 Content="update"/>
                         <Button Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.DeleteCommand, Mode=OneWay}"
                                 CommandParameter="{Binding Id, Mode=OneWay}"

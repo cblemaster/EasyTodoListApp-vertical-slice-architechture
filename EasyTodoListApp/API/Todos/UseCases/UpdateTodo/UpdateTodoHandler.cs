@@ -11,10 +11,10 @@ public class UpdateTodoHandler(ITodoRepository todoRepository) : IRequestHandler
 
     public async Task<UpdateTodoResponse> Handle(UpdateTodoCommand request, CancellationToken cancellationToken)
     {
-        Todo? updateTodo = await _todoRepository.GetTodoByIdOrNullAsync(request.Id);
+        Todo? updateTodo = await _todoRepository.GetTodoByIdOrNullAsync(Identifier<Todo>.Create(request.Id));
         if (updateTodo is null)
         {
-            return new UpdateTodoResponse($"Todo with id {request.Id.Value} not found!");
+            return new UpdateTodoResponse($"Todo with id {request.Id} not found!");
         }
         else if (updateTodo.IsComplete)
         {
@@ -23,7 +23,7 @@ public class UpdateTodoHandler(ITodoRepository todoRepository) : IRequestHandler
         else
         {
             await _todoRepository.UpdateTodoAsync(request);
-            return new UpdateTodoResponse($"Todo with id {request.Id.Value} updated successfully!");
+            return new UpdateTodoResponse($"Todo with id {request.Id} updated successfully!");
         }
     }
 }

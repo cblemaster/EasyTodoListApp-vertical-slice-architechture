@@ -48,7 +48,6 @@ namespace EasyTodoListApp.API.Todos.Controllers
             else
             {
                 // TODO: The "not found" and "success" evaluations here are pretty brittle
-                command = command with { Id = command.Id with { Value = id } };
                 UpdateTodoResponse response = await _mediator.Send(command);
                 return response.Result.Contains("not found")
                     ? NotFound()

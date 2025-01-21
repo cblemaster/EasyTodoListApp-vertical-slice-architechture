@@ -14,8 +14,10 @@
         <converters:NullableDateTimeToStringConverter x:Key="NullableDateTimeToStringConverter"/>
         <converters:BoolToYesNoConverter x:Key="BoolToYesNoConverter"/>
         <converters:BoolToInverseConverter x:Key="BoolToInverseConverter"/>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisConverter"/>
+        <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisConverter"/>
         <DataTemplate x:Key="TodoTemplate">
-            <Grid Width="300"
+            <Grid Width="600"
                   Height="169"
                   Background="LightGoldenrodYellow">
                 <Grid.ColumnDefinitions>
@@ -45,11 +47,18 @@
                         <Button Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.UpdateCommand, Mode=OneWay}"
                                 CommandParameter="{Binding Id, Mode=OneWay}"
                                 IsEnabled="{Binding IsComplete, Mode=OneWay, Converter={StaticResource BoolToInverseConverter}}"
+                                Visibility="{Binding IsComplete, Mode=OneWay, Converter={StaticResource InverseBoolToVisConverter}}"
                                 Content="update"/>
                         <Button Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.DeleteCommand, Mode=OneWay}"
                                 CommandParameter="{Binding Id, Mode=OneWay}"
                                 IsEnabled="{Binding IsImportant, Mode=OneWay, Converter={StaticResource BoolToInverseConverter}}"
                                 Content="delete"/>
+                        <Button Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.MarkIncompleteCommand, Mode=OneWay}"
+                                CommandParameter="{Binding ., Mode=OneWay}"
+                                IsEnabled="{Binding IsComplete, Mode=OneWay}"
+                                Visibility="{Binding IsComplete, Mode=OneWay, Converter={StaticResource BoolToVisConverter}}"
+                                Content="mark incomplete"
+                                Width="120"/>
                     </StackPanel>
                 </StackPanel>
             </Grid>

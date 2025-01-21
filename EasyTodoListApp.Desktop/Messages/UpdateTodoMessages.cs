@@ -40,4 +40,25 @@ public static class UpdateTodoMessages
         MessageBoxImage icon = MessageBoxImage.Error;
         return MessageBox.Show(message, CAPTION, _button, icon);
     }
+
+    public static MessageBoxResult ShowCannotUpdateCompletedTodoMessage()
+    {
+        string message = "Completed todos cannot be updated!";
+        MessageBoxImage icon = MessageBoxImage.Information;
+        return MessageBox.Show(message, CAPTION, _button, icon);
+    }
+
+    public static MessageBoxResult ShowMarkTodoIncompleteTodoAlreadyIncompleteMessage()
+    {
+        string message = "Not complete todos cannot be marked incomplete!";
+        MessageBoxImage icon = MessageBoxImage.Information;
+        return MessageBox.Show(message, CAPTION, _button, icon);
+    }
+
+    public static MessageBoxResult ShowMarkTodoIncompleteTodoIsNotCompleteMessage()
+    {
+        string message = "Todo is already not complete!";
+        MessageBoxImage icon = MessageBoxImage.Information;
+        return MessageBox.Show(message, CAPTION, _button, icon);
+    }
 }

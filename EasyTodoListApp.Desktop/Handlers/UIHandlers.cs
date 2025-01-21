@@ -26,7 +26,7 @@ public class UIHandlers(IDataService dataService) : IUIHandlers
 
         DateOnly? dueDateForDto = dueDate is null ? null : DateOnly.FromDateTime(dueDate.Value);
         CreateTodoDTO dto = new(description, dueDateForDto, isImportant, isComplete);  // TODO: We could just databind the xaml input controls to properties on the dto rather than instantiating the dto here
-        string message = string.Empty;
+        string message;
 
         try
         {
@@ -36,7 +36,7 @@ public class UIHandlers(IDataService dataService) : IUIHandlers
                 case DataServiceResponseType.Success:
                     message = createResponse.Messgage;
                     CreateTodoMessages.ShowCreateTodoSucceededMessage(message);
-                    System.Windows.WindowCollection a = App.Current.Windows;    // TODO: I dont like doing UI stuff like this from the page model
+                    System.Windows.WindowCollection a = App.Current.Windows;
                     foreach (object? w in a)
                     {
                         if (w is Window window)
@@ -51,7 +51,7 @@ public class UIHandlers(IDataService dataService) : IUIHandlers
                     return;
                 case DataServiceResponseType.Failure:
                     message = createResponse.Messgage;
-                    CreateTodoMessages.ShowCreateTodoFailedMessage(message);  // TODO: These messages arent very elegant and involve too much UI work in the page model
+                    CreateTodoMessages.ShowCreateTodoFailedMessage(message);
                     return;
             }
         }
@@ -72,34 +72,30 @@ public class UIHandlers(IDataService dataService) : IUIHandlers
                 DeleteTodoMessages.ShowTodoToDeleteNotFoundMessage();
                 return;
             }
+            else if (todo.IsImportant)
+            {
+                DeleteTodoMessages.ShowCannotDeleteImportantTodoMessage();
+                return;
+            }
             else
             {
-                if (todo.IsImportant)
-                {
-                    DeleteTodoMessages.ShowCannotDeleteImportantTodoMessage();
-                    return;
-                }
+                MessageBoxResult confirmed = DeleteTodoMessages.ShowConfirmDeleteTodoMessage(todo.Description);
+                if (confirmed.Equals(MessageBoxResult.No)) { return; }
                 else
                 {
-                    MessageBoxResult confirmed = DeleteTodoMessages.ShowConfirmDeleteTodoMessage(todo.Description);
-                    if (confirmed.Equals(MessageBoxResult.No)) { return; }
-                    else
+                    DataServiceResponse<string> deleteResponse = await _dataService.TryDeleteTodoAsync(id);
+                    switch (deleteResponse.ResponseType)
                     {
-                        DataServiceResponse<string> deleteResponse = await _dataService.TryDeleteTodoAsync(id);
-                        switch (deleteResponse.ResponseType)
-                        {
-                            case DataServiceResponseType.Failure:
-                                DeleteTodoMessages.ShowDeleteTodoFailedMessage(deleteResponse.Messgage);
-                                return;
-                            case DataServiceResponseType.Success:
-                                DeleteTodoMessages.ShowDeleteTodoSucceededMessage(deleteResponse.Messgage);
-                                // TODO: Refresh
-                                return;
-                        }
+                        case DataServiceResponseType.Failure:
+                            DeleteTodoMessages.ShowDeleteTodoFailedMessage(deleteResponse.Messgage);
+                            return;
+                        case DataServiceResponseType.Success:
+                            DeleteTodoMessages.ShowDeleteTodoSucceededMessage(deleteResponse.Messgage);
+                            // TODO: Refresh
+                            return;
                     }
                 }
             }
-
         }
         catch (HttpRequestException ex)
         {
@@ -118,13 +114,14 @@ public class UIHandlers(IDataService dataService) : IUIHandlers
         }
         else
         {
-            DateOnly? dueDateForDto = dueDate is null ? null : DateOnly.FromDateTime(dueDate.Value);
-            UpdateTodoDTO dto = new(description, dueDateForDto, isImportant, isComplete, id);  // TODO: We could just databind the xaml input controls to properties on the dto rather than instantiating the dto here
             if (todo.IsComplete)
             {
-                dto = dto with { Description = todo.Description, DueDate = todo.DueDate, IsImportant = todo.IsImportant };
+                UpdateTodoMessages.ShowCannotUpdateCompletedTodoMessage();
+                return;
             }
 
+            DateOnly? dueDateForDto = dueDate is null ? null : DateOnly.FromDateTime(dueDate.Value);
+            UpdateTodoDTO dto = new(description, dueDateForDto, isImportant, isComplete, id);  // TODO: We could just databind the xaml input controls to properties on the dto rather than instantiating the dto here
             (bool IsValid, string error) = ValidateDescription(dto.Description);
 
             if (!IsValid)
@@ -133,17 +130,16 @@ public class UIHandlers(IDataService dataService) : IUIHandlers
                 return;
             }
 
-            string message = string.Empty;
-
             try
             {
+                string message;
                 DataServiceResponse<string> updateResponse = await _dataService.TryUpdateTodoAsync(dto, id);
                 switch (updateResponse.ResponseType)
                 {
                     case DataServiceResponseType.Success:
                         message = updateResponse.Messgage;
                         UpdateTodoMessages.ShowUpdateTodoSucceededMessage(message);
-                        System.Windows.WindowCollection a = App.Current.Windows;    // TODO: I dont like doing UI stuff like this from the page model
+                        System.Windows.WindowCollection a = App.Current.Windows;
                         foreach (object? w in a)
                         {
                             if (w is Window window)
@@ -158,7 +154,48 @@ public class UIHandlers(IDataService dataService) : IUIHandlers
                         return;
                     case DataServiceResponseType.Failure:
                         message = updateResponse.Messgage;
-                        UpdateTodoMessages.ShowUpdateTodoFailedMessage(message);  // TODO: These messages arent very elegant and involve too much UI work in the page model
+                        UpdateTodoMessages.ShowUpdateTodoFailedMessage(message);
+                        return;
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                string message = $"Update todo failed, the server response was status {ex.StatusCode}";
+                UpdateTodoMessages.ShowUpdateTodoErrorMessage(message);
+            }
+        }
+    }
+
+    public async Task TryMarkTodoIncompleteAsync(Guid id)
+    {
+        DataServiceResponse<TodoDTO> findTodoResponse = await _dataService.TryGetTodoByIdOrThrowHttpExAsync(id);
+        if (findTodoResponse.Data is null || findTodoResponse.Data is not TodoDTO todo)
+        {
+            UpdateTodoMessages.ShowTodoToUpdateNotFoundMessage();
+            return;
+        }
+        else if (!todo.IsComplete)
+        {
+            UpdateTodoMessages.ShowMarkTodoIncompleteTodoIsNotCompleteMessage();
+            return;
+        }
+        else
+        {
+            UpdateTodoDTO dto = new(todo.Description, todo.DueDate, todo.IsImportant, IsComplete: false, id);
+            string message;
+
+            try
+            {
+                DataServiceResponse<string> updateResponse = await _dataService.TryUpdateTodoAsync(dto, id);
+                switch (updateResponse.ResponseType)
+                {
+                    case DataServiceResponseType.Success:
+                        message = updateResponse.Messgage;
+                        UpdateTodoMessages.ShowUpdateTodoSucceededMessage(message);
+                        return;
+                    case DataServiceResponseType.Failure:
+                        message = updateResponse.Messgage;
+                        UpdateTodoMessages.ShowUpdateTodoFailedMessage(message);
                         return;
                 }
             }
@@ -170,7 +207,7 @@ public class UIHandlers(IDataService dataService) : IUIHandlers
         }
     }
 
-    private (bool IsValid, string error) ValidateDescription(string description)
+    private static (bool IsValid, string error) ValidateDescription(string description)
     {
         bool isValid = true;
         string message = string.Empty;

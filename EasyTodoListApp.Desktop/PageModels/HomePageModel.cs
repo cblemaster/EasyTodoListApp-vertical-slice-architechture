@@ -46,7 +46,7 @@ public partial class HomePageModel(IDataService dataService, IUIHandlers uiHandl
     }
 
     [RelayCommand]
-    public void Create()
+    public static void Create()
     {
         CreateTodoWindow ctw = new();
         ctw.ShowDialog();
@@ -56,7 +56,7 @@ public partial class HomePageModel(IDataService dataService, IUIHandlers uiHandl
     public async Task DeleteAsync(Guid id) => await _uiHandlers.TryHandleDeleteTodoAsync(id);
 
     [RelayCommand]
-    public async Task Update(Guid id)
+    public static async Task UpdateAsync(Guid id)
     {
         UpdateTodoWindow utw = new();
         if (utw.Content is UpdateTodoPage updatePage)
@@ -66,4 +66,7 @@ public partial class HomePageModel(IDataService dataService, IUIHandlers uiHandl
             utw.ShowDialog();
         }
     }
+
+    [RelayCommand]
+    public async Task MarkIncompleteAsync(TodoDTO dto) => await _uiHandlers.TryMarkTodoIncompleteAsync(dto.Id);
 }

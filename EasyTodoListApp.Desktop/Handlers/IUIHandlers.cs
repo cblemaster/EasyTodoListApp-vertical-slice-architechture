@@ -1,5 +1,4 @@
-﻿
-namespace EasyTodoListApp.Desktop.Handlers;
+﻿namespace EasyTodoListApp.Desktop.Handlers;
 
 public interface IUIHandlers
 {

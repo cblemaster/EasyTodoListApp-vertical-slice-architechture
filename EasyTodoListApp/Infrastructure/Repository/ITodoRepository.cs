@@ -1,5 +1,6 @@
 ﻿
 using EasyTodoListApp.API.Todos.UseCases.CreateTodo;
+using EasyTodoListApp.API.Todos.UseCases.MarkTodoIncomplete;
 using EasyTodoListApp.API.Todos.UseCases.UpdateTodo;
 using EasyTodoListApp.Domain;
 
@@ -9,6 +10,7 @@ namespace EasyTodoListApp.Infrastructure.Repository
     {
         Task CreateTodoAsync(CreateTodoCommand command);
         Task UpdateTodoAsync(UpdateTodoCommand command);
+        Task MarkTodoIncompleteAsync(MarkTodoIncompleteCommand command);
         Task DeleteTodoAsync(Identifier<Todo> id);
 
         IEnumerable<Todo> GetAllTodosComplete();

@@ -1,6 +1,4 @@
-﻿
-using EasyTodoListApp.Domain;
-using MediatR;
+﻿using MediatR;
 
 namespace EasyTodoListApp.API.Todos.UseCases.UpdateTodo;
 

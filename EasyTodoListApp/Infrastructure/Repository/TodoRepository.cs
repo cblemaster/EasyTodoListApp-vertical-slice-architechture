@@ -1,5 +1,6 @@
 ﻿
 using EasyTodoListApp.API.Todos.UseCases.CreateTodo;
+using EasyTodoListApp.API.Todos.UseCases.MarkTodoIncomplete;
 using EasyTodoListApp.API.Todos.UseCases.UpdateTodo;
 using EasyTodoListApp.Domain;
 using EasyTodoListApp.Infrastructure.DatabaseContext;
@@ -25,6 +26,14 @@ public class TodoRepository(EasyTodoListAppDbContext context) : ITodoRepository
         entity.SetUpdateDate();
         await _context.SaveChangesAsync();
     }
+    public async Task MarkTodoIncompleteAsync(MarkTodoIncompleteCommand command)
+    {
+        Todo entity = (await GetTodoByIdOrNullAsync(Identifier<Todo>.Create(command.Id)))!;  // handler has verified that the entity exists
+        entity.SetIsComplete(false);
+        entity.SetUpdateDate();
+        await _context.SaveChangesAsync();
+    }
+
     public async Task DeleteTodoAsync(Identifier<Todo> id)
     {
         Todo entity = (await GetTodoByIdOrNullAsync(id))!;  // handler has verified that the entity exists

@@ -181,28 +181,28 @@ public class UIHandlers(IDataService dataService) : IUIHandlers
         }
         else
         {
-            UpdateTodoDTO dto = new(todo.Description, todo.DueDate, todo.IsImportant, IsComplete: false, id);
+            MarkTodoIncompleteDTO dto = new(id);
             string message;
 
             try
             {
-                DataServiceResponse<string> updateResponse = await _dataService.TryUpdateTodoAsync(dto, id);
-                switch (updateResponse.ResponseType)
+                DataServiceResponse<string> markIncompleteResponse = await _dataService.TryMarkTodoIncompleteAsync(dto, id);
+                switch (markIncompleteResponse.ResponseType)
                 {
                     case DataServiceResponseType.Success:
-                        message = updateResponse.Messgage;
-                        UpdateTodoMessages.ShowUpdateTodoSucceededMessage(message);
+                        message = markIncompleteResponse.Messgage;
+                        MarkTodoIncompleteMessages.ShowMarkTodoIncompleteSucceededMessage(message);
                         return;
                     case DataServiceResponseType.Failure:
-                        message = updateResponse.Messgage;
-                        UpdateTodoMessages.ShowUpdateTodoFailedMessage(message);
+                        message = markIncompleteResponse.Messgage;
+                        MarkTodoIncompleteMessages.ShowMarkTodoIncompleteFailedMessage(message);
                         return;
                 }
             }
             catch (HttpRequestException ex)
             {
-                message = $"Update todo failed, the server response was status {ex.StatusCode}";
-                UpdateTodoMessages.ShowUpdateTodoErrorMessage(message);
+                message = $"Mark todo incomplete failed, the server response was status {ex.StatusCode}";
+                MarkTodoIncompleteMessages.ShowMarkTodoIncompleteErrorMessage(message);
             }
         }
     }

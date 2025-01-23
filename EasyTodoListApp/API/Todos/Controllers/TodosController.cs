@@ -7,6 +7,7 @@ using EasyTodoListApp.API.Todos.UseCases.GetAllTodosImportant;
 using EasyTodoListApp.API.Todos.UseCases.GetAllTodosNotComplete;
 using EasyTodoListApp.API.Todos.UseCases.GetAllTodosOverdue;
 using EasyTodoListApp.API.Todos.UseCases.GetTodoById;
+using EasyTodoListApp.API.Todos.UseCases.MarkTodoIncomplete;
 using EasyTodoListApp.API.Todos.UseCases.UpdateTodo;
 using EasyTodoListApp.API.Todos.Validation;
 using EasyTodoListApp.Domain;
@@ -53,6 +54,16 @@ namespace EasyTodoListApp.API.Todos.Controllers
                     ? NotFound()
                     : response.Result.Contains("success") ? NoContent() : BadRequest(response.Result);
             }
+        }
+
+        [HttpPut("{id:guid}/markincomplete")]
+        public async Task<IActionResult> MarkTodoIncompleteAsync(MarkTodoIncompleteCommand command, Guid id)
+        {
+            // TODO: The "not found" and "success" evaluations here are pretty brittle
+            MarkTodoIncompleteResponse response = await _mediator.Send(command);
+            return response.Result.Contains("not found")
+                ? NotFound()
+                : response.Result.Contains("success") ? NoContent() : BadRequest(response.Result);
         }
 
         [HttpDelete("{id:guid}")]

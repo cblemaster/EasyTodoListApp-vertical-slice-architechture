@@ -1,4 +1,5 @@
 ﻿
+using CommunityToolkit.Mvvm.Messaging;
 using EasyTodoListApp.Desktop.Messages;
 using EasyTodoListApp.Desktop.Models;
 using EasyTodoListApp.Desktop.Services;
@@ -36,6 +37,7 @@ public class UIHandlers(IDataService dataService) : IUIHandlers
                 case DataServiceResponseType.Success:
                     message = createResponse.Messgage;
                     CreateTodoMessages.ShowCreateTodoSucceededMessage(message);
+                    WeakReferenceMessenger.Default.Send(new TodosChangedMessage("data created..."));
                     System.Windows.WindowCollection a = App.Current.Windows;
                     foreach (object? w in a)
                     {
@@ -91,7 +93,7 @@ public class UIHandlers(IDataService dataService) : IUIHandlers
                             return;
                         case DataServiceResponseType.Success:
                             DeleteTodoMessages.ShowDeleteTodoSucceededMessage(deleteResponse.Messgage);
-                            // TODO: Refresh
+                            WeakReferenceMessenger.Default.Send(new TodosChangedMessage("data deleted..."));
                             return;
                     }
                 }
@@ -139,6 +141,7 @@ public class UIHandlers(IDataService dataService) : IUIHandlers
                     case DataServiceResponseType.Success:
                         message = updateResponse.Messgage;
                         UpdateTodoMessages.ShowUpdateTodoSucceededMessage(message);
+                        WeakReferenceMessenger.Default.Send(new TodosChangedMessage("data updated..."));
                         System.Windows.WindowCollection a = App.Current.Windows;
                         foreach (object? w in a)
                         {
@@ -192,6 +195,7 @@ public class UIHandlers(IDataService dataService) : IUIHandlers
                     case DataServiceResponseType.Success:
                         message = markIncompleteResponse.Messgage;
                         MarkTodoIncompleteMessages.ShowMarkTodoIncompleteSucceededMessage(message);
+                        WeakReferenceMessenger.Default.Send(new TodosChangedMessage("data updated..."));
                         return;
                     case DataServiceResponseType.Failure:
                         message = markIncompleteResponse.Messgage;

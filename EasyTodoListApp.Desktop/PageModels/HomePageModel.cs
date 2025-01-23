@@ -1,7 +1,9 @@
 ﻿
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using EasyTodoListApp.Desktop.Handlers;
+using EasyTodoListApp.Desktop.Messages;
 using EasyTodoListApp.Desktop.Models;
 using EasyTodoListApp.Desktop.PageModels;
 using EasyTodoListApp.Desktop.Services;
@@ -11,10 +13,19 @@ using System.Windows.Controls;
 
 namespace EasyTodoListApp.Desktop.Pages;
 
-public partial class HomePageModel(IDataService dataService, IUIHandlers uiHandlers) : ObservableObject
+public partial class HomePageModel : ObservableObject
 {
-    private readonly IDataService _dataService = dataService;
-    private readonly IUIHandlers _uiHandlers = uiHandlers;
+    private readonly IDataService _dataService;
+    private readonly IUIHandlers _uiHandlers;
+
+    public HomePageModel(IDataService dataService, IUIHandlers uiHandlers)
+    {
+        _dataService = dataService;
+        _uiHandlers = uiHandlers;
+
+        WeakReferenceMessenger.Default.Register<TodosChangedMessage>(this, async (recipeint, message) =>
+            await LoadDataForSelectedTabAsync());
+    }
 
     [ObservableProperty]
     public ReadOnlyCollection<TodoDTO> _todos = new([]);
@@ -23,7 +34,9 @@ public partial class HomePageModel(IDataService dataService, IUIHandlers uiHandl
     public TabItem _selectedTabItem = default!;
 
     [RelayCommand]
-    public async Task SelectedTabChangedAsync()
+    public async Task SelectedTabChangedAsync() => await LoadDataForSelectedTabAsync();
+
+    private async Task LoadDataForSelectedTabAsync()
     {
         switch (SelectedTabItem.Header)
         {
@@ -40,7 +53,8 @@ public partial class HomePageModel(IDataService dataService, IUIHandlers uiHandl
                 Todos = (await _dataService.GetAllTodosImportantAsync()).ToList().AsReadOnly();
                 break;
             case "Complete":
-                Todos = (await _dataService.GetAllTodosCompleteAsync()).ToList().AsReadOnly();
+                ReadOnlyCollection<TodoDTO> todoDTOs = (await _dataService.GetAllTodosCompleteAsync()).ToList().AsReadOnly();
+                Todos = todoDTOs;
                 break;
         }
     }

@@ -6,44 +6,6 @@
       mc:Ignorable="d" 
       d:DesignHeight="225"
       d:DesignWidth="400"
-      Title="Update Todo">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="3*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
-        </Grid.RowDefinitions>
-        <Label Content="description"/>
-        <Label Grid.Row="1"
-               Content="due date"/>
-        <TextBox Text="{Binding Description, Mode=TwoWay}"
-                 Grid.Column="1"/>
-        <DatePicker SelectedDate="{Binding DueDate, Mode=TwoWay}"
-                    Grid.Column="1"
-                    Grid.Row="1"/>
-        <CheckBox IsChecked="{Binding IsImportant, Mode=TwoWay}"
-                  Grid.Column="1"
-                  Grid.Row="2"
-                  Content="important?" />
-        <CheckBox IsChecked="{Binding IsComplete, Mode=TwoWay}"
-                  Grid.Column="1"
-                  Grid.Row="3"
-                  Content="complete?" />
-        <StackPanel Grid.Row="4"
-                    Grid.ColumnSpan="2"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Center">
-            <Button Content="Cancel"
-                    IsCancel="True"/>
-            <Button Command="{Binding SaveCommand, Mode=OneWay}"
-                    Content="Save"
-                    Margin="10,0,0,0"/>
-        </StackPanel>
-    </Grid>
+      Title="Update todo">
+    <ContentControl Template="{StaticResource TodoInputTemplate}" />
 </Page>

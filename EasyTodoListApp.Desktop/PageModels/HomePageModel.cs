@@ -82,5 +82,5 @@ public partial class HomePageModel : ObservableObject
     }
 
     [RelayCommand]
-    public async Task MarkIncompleteAsync(TodoDTO dto) => await _uiHandlers.TryMarkTodoIncompleteAsync(dto.Id);
+    public async Task MarkIncompleteAsync(Guid id) => await _uiHandlers.TryMarkTodoIncompleteAsync(id);
 }

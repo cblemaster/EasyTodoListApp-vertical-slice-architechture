@@ -54,7 +54,7 @@
                                 IsEnabled="{Binding IsImportant, Mode=OneWay, Converter={StaticResource BoolToInverseConverter}}"
                                 Content="delete"/>
                         <Button Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.MarkIncompleteCommand, Mode=OneWay}"
-                                CommandParameter="{Binding ., Mode=OneWay}"
+                                CommandParameter="{Binding Id, Mode=OneWay}"
                                 IsEnabled="{Binding IsComplete, Mode=OneWay}"
                                 Visibility="{Binding IsComplete, Mode=OneWay, Converter={StaticResource BoolToVisConverter}}"
                                 Content="mark incomplete"

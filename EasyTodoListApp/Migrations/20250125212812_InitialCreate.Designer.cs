@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EasyTodoListApp.Migrations
 {
     [DbContext(typeof(EasyTodoListAppDbContext))]
-    [Migration("20250101175547_InitialCreate")]
+    [Migration("20250125212812_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

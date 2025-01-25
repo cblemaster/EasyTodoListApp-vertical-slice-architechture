@@ -1,8 +1,11 @@
 ﻿
-using EasyTodoListApp.Desktop.Handlers;
-using EasyTodoListApp.Desktop.PageModels;
-using EasyTodoListApp.Desktop.Pages;
+using EasyTodoListApp.Desktop.Interfaces;
 using EasyTodoListApp.Desktop.Services;
+using EasyTodoListApp.Desktop.UseCases.CreateTodo;
+using EasyTodoListApp.Desktop.UseCases.DeleteTodo;
+using EasyTodoListApp.Desktop.UseCases.GetTodos;
+using EasyTodoListApp.Desktop.UseCases.MarkTodoIncomplete;
+using EasyTodoListApp.Desktop.UseCases.UpdateTodo;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 
@@ -25,8 +28,11 @@ public partial class App : Application
         ServiceCollection services = new();
         return services
             .AddSingleton<IDataService, HttpDataService>()
-            .AddSingleton<IUIHandlers, UIHandlers>()
-            .AddSingleton<HomePageModel>()
+            .AddSingleton<ICreateTodoCommandProcessor, CreateTodoCommandProcessor>()
+            .AddSingleton<IDeleteTodoCommandProcessor, DeleteTodoCommandProcessor>()
+            .AddSingleton<IUpdateTodoCommandProcessor, UpdateTodoCommandProcessor>()
+            .AddSingleton<IMarkTodoIncompleteCommandProcessor, MarkTodoIncompleteCommandProcessor>()
+            .AddSingleton<GetTodosPageModel>()
             .AddTransient<CreateTodoPageModel>()
             .AddTransient<UpdateTodoPageModel>()
             .BuildServiceProvider();

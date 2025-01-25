@@ -1,0 +1,11 @@
+﻿<Page x:Class="EasyTodoListApp.Desktop.UseCases.UpdateTodo.UpdateTodoPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d" 
+      d:DesignHeight="225"
+      d:DesignWidth="400"
+      Title="Update todo">
+    <ContentControl Template="{StaticResource TodoInputTemplate}" />
+</Page>
